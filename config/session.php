@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => 'contact_dispo_session',
 
     /*
     |--------------------------------------------------------------------------

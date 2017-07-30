@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('response.index');
 });
+
+Route::get('response', 'ResponseController@index');
+Route::get('response/{id}', 'ResponseController@create');
