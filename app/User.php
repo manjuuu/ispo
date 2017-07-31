@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'username',
     ];
 
     /**
@@ -27,9 +27,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function usergroups()
+    public function groups()
     {
-        return $this->hasMany('App\UserGroup');
+        return $this->belongsToMany('App\Group', 'user_groups');
     }
     public function respones()
     {

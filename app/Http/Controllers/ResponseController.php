@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Form;
+use App\Response;
+use Auth;
 
 class ResponseController extends Controller
 {
@@ -25,7 +27,16 @@ class ResponseController extends Controller
      */
     public function create($id)
     {
-        $form = Form::findOrFail($id)->load(['questions', 'questions.questiontype', 'questions.optiongroup.options']);
+        $form = Form::findOrFail($id);
+
+        $this->authorize('view', $form);
+
+        $passThough = request()->query->all();
+
+        request()->session()->put('passThough', $passThough);
+
+        $form = $form->load(['questions', 'questions.questiontype', 'questions.optiongroup.options']);
+
         return view('response.form', compact('form'));
     }
 
@@ -37,7 +48,20 @@ class ResponseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $form_id = decrypt($request->_form);
+        $response = new Response;
+        $response->user_id = Auth::id();
+        $response->form_id = $form_id;
+        $response->response_request = $request->except(['_form','_token','_savestate']);
+        $response->response_attributes = session('passThough');
+        $response->save();
+
+        $request->session()->put('passThough', []);
+        if ($request->_savestate == "Save >> New Form") {
+            return redirect(route('forms'))->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Disposition Saved']]);
+        } else {
+            return redirect(route('response', ['id' => $form_id]))->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Disposition Saved']]);
+        }
     }
 
     /**

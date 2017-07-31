@@ -14,4 +14,8 @@ class Response extends Model
     {
         return $this->belongsTo('App\User');
     }
+    protected $casts = [
+      'response_request' => 'array',
+      'response_attributes' => 'array',
+    ];
 }

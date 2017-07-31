@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    public function usergroups()
+    public function group()
     {
-        return $this->hasMany('App\UserGroup');
+        return $this->belongsToMany('App\Group');
     }
     public function forms()
     {

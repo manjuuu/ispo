@@ -1,2 +1,1 @@
-{{ Form::label($question->id, $question->title) }}
-{{ Form::text($question->id) }}
+{!! BootForm::text($question->id, $question->title) !!}

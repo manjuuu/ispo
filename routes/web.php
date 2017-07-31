@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('response.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', 'ResponseController@index');
+    Route::get('response', 'ResponseController@index')->name('forms');
+    Route::post('response', 'ResponseController@store');
+    Route::get('response/{id}', 'ResponseController@create')->name('response');
 });
 
-Route::get('response', 'ResponseController@index');
-Route::get('response/{id}', 'ResponseController@create');
+Route::get('login', 'AuthController@index')->name('login');
+Route::post('login', 'AuthController@login');
+Route::get('logout', 'AuthController@logout');
