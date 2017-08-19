@@ -28,6 +28,8 @@
           @include('questiontype.integer')
         @elseif($question->questiontype->type == 'password')
           @include('questiontype.password')
+        @elseif($question->questiontype->type == 'selectdependant')
+          @include('questiontype.selectdependant')
         @else
           <p>Question type not found for Question ID: {{ $question->id }}</p>
         @endif

@@ -103,7 +103,6 @@
         </div>
       </div>
     </div>
-    @stack('scripts')
 
     <script src="{{ mix('/js/app.js') }}"></script>
     <script src="{{ mix('/js/library.js') }}"></script>
@@ -122,5 +121,7 @@
       		url,'popUpWindow','height=500,width=400,left=5,top=5,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
       }
       </script>
+      @stack('scripts')
+
   </body>
 </html>

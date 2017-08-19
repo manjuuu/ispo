@@ -10,4 +10,12 @@ class Option extends Model
     {
         return $this->belongsTo('App\OptionGroup');
     }
+    public function parent($query)
+    {
+        return $query->whereIsNull('parent_id');
+    }
+    public function children()
+    {
+        return $this->hasMany('App\Option', 'parent_id', 'id');
+    }
 }

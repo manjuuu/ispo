@@ -35,7 +35,7 @@ class ResponseController extends Controller
 
         request()->session()->put('passThough', $passThough);
 
-        $form = $form->load(['questions', 'questions.questiontype', 'questions.optiongroup.options']);
+        $form = $form->load(['questions', 'questions.questiontype', 'questions.optiongroup.options', 'questions.optiongroup.options.children']);
 
         return view('response.form', compact('form'));
     }
