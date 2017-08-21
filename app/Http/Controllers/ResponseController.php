@@ -19,7 +19,7 @@ class ResponseController extends Controller
     public function responses($form_id)
     {
         if (Auth::user()->admin == 0) {
-            $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+            $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
             $form_ct = Form::whereIn('group_id', $groups)->where('form_id', $form_id)->count();
 
             if ($form_ct == 0) {
@@ -35,7 +35,7 @@ class ResponseController extends Controller
     public function export($form_id)
     {
         if (Auth::user()->admin == 0) {
-            $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+            $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
             $form_ct = Form::whereIn('group_id', $groups)->where('form_id', $form_id)->count();
 
             if ($form_ct == 0) {
