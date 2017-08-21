@@ -12,8 +12,8 @@
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', 'HomeController@index');
-    Route::get('response', 'ResponseController@index')->name('forms');
+    Route::get('/', 'HomeController@index')->name('forms');
+    Route::get('response', 'ResponseController@index');
     Route::post('response', 'ResponseController@store');
     Route::get('reports/{id}', 'ResponseController@responses');
     Route::get('reports/{id}/export', 'ResponseController@export');
