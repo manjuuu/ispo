@@ -123,7 +123,7 @@
     <script>
       function newPopup(url) {
       	popupWindow = window.open(
-      		url,'popUpWindow','height=500,width=400,left=5,top=5,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+      		url,'popUpWindow','height=500,width=400,left=5,top=5,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
       }
       </script>
       @stack('scripts')
