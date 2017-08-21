@@ -23,5 +23,7 @@ class QuestionTypesTableSeeder extends Seeder
         DB::table('question_types')->insert(['title' => 'Integer', 'type' => 'integer']);
         DB::table('question_types')->insert(['title' => 'Hidden String', 'type' => 'password']);
         DB::table('question_types')->insert(['title' => 'Dependant Select', 'type' => 'selectdependant', 'uses_option_groups' => true]);
+        DB::table('question_types')->insert(['title' => 'Timer', 'type' => 'timer']);
+        DB::table('question_types')->insert(['title' => 'Auto Starting Timer', 'type' => 'autotimer']);
     }
 }
