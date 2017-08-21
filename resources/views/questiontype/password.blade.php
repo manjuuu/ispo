@@ -1,1 +1,1 @@
-{!! BootForm::password($question->id, $question->title) !!}
+{!! BootForm::password('q'.$question->id, $question->title) !!}

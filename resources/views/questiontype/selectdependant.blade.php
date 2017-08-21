@@ -1,8 +1,8 @@
 @if($question->optiongroup->options->count() > 0)
   <div class="form-group">
-    <label for="{{ $question->id }}" class="control-label">{{ $question->title }}</label>
-    <div><select class="form-control" id="{{ $question->id }}" name="{{ $question->id }}-ignore"></select></div>
-    <div><select class="form-control" id="second-{{ $question->id }}" name="{{ $question->id }}"></select></div>
+    <label for="{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
+    <div><select class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}-ignore"></select></div>
+    <div><select class="form-control" id="second-{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}"></select></div>
   </div>
 
 @else
@@ -34,12 +34,12 @@ $(function(){
   $.each(items, function(){
       $("<option />")
       .html(this.name)
-      .appendTo("#{{ $question->id }}");
+      .appendTo("#{{ 'q'.$question->id }}");
       temp[this.name] = this.subitems;
   });
-  $("#{{ $question->id }}").change(function(){
+  $("#{{ 'q'.$question->id }}").change(function(){
       var name = $(this).val();
-      var menu = $("#second-{{ $question->id }}");
+      var menu = $("#second-{{ 'q'.$question->id }}");
       menu.empty();
       $.each(temp[name], function(){
           $("<option />")

@@ -12,9 +12,12 @@
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', 'ResponseController@index');
+    Route::get('/', 'HomeController@index');
     Route::get('response', 'ResponseController@index')->name('forms');
     Route::post('response', 'ResponseController@store');
+    Route::get('reports/{id}', 'ResponseController@responses');
+    Route::get('reports/{id}/export', 'ResponseController@export');
+    Route::get('reports', 'ResponseController@forms');
     Route::get('response/{id}', 'ResponseController@create')->name('response');
 });
 

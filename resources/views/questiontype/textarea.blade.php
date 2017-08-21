@@ -1,1 +1,1 @@
-{!! BootForm::textarea($question->id, $question->title) !!}
+{!! BootForm::textarea('q'.$question->id, $question->title) !!}

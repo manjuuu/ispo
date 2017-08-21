@@ -1,9 +1,9 @@
   <div class="form-group">
-    <label for="{{ $question->id }}" class="control-label">{{ $question->title }}</label>
-    <button type="button" id="start-{{ $question->id }}">Start</button>
-    <button type="button" id="stop-{{ $question->id }}">Stop</button>
-    <button type="button" id="reset-{{ $question->id }}">Reset</button>
-    <div><input type="text" class="form-control" id="{{ $question->id }}" name="{{ $question->id }}" disabled></div>
+    <label for="q{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
+    <button type="button" id="start-{{ 'q'.$question->id }}">Start</button>
+    <button type="button" id="stop-{{ 'q'.$question->id }}">Stop</button>
+    <button type="button" id="reset-{{ 'q'.$question->id }}">Reset</button>
+    <div><input type="text" class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}" readonly></div>
   </div>
 
 
@@ -12,11 +12,11 @@
   <script>
   window.onload = function () {
     var TimerActiveTime = 0;
-    var addTimerActiveTime = document.getElementById('{{ $question->id }}')
+    var addTimerActiveTime = document.getElementById('{{ 'q'.$question->id }}')
     var intvl;
-    var tSt = document.getElementById('start-{{ $question->id }}');
-    var tSp = document.getElementById('stop-{{ $question->id }}');
-    var tRe = document.getElementById('reset-{{ $question->id }}');
+    var tSt = document.getElementById('start-{{ 'q'.$question->id }}');
+    var tSp = document.getElementById('stop-{{ 'q'.$question->id }}');
+    var tRe = document.getElementById('reset-{{ 'q'.$question->id }}');
 
     tSt.onclick = function() {
        clearInterval(intvl);
