@@ -56,10 +56,10 @@
               <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> {{ $form->title }}
               <div class="pull-right">
                 <a class="btn btn-sm btn-default" href="{{ action('ResponseController@create', [$form->id]) }}">Open Form</a>
-                &nbsp;
                 <a class="btn btn-sm btn-default" href="JavaScript:newPopup('{{ action('ResponseController@create', [$form->id]) }}');">Open a Popup</a>
               </div>
             </h4>
+            {{ $form->group->title }}
           </div>
         @endforeach
       </div>

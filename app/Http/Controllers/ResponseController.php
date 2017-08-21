@@ -17,7 +17,7 @@ class ResponseController extends Controller
      */
     public function index()
     {
-        $forms = Form::get()->load('questions');
+        $forms = Form::get()->load('group');
         $today = DB::table('responses')
                      ->select(DB::raw('count(*) as aggergate, forms.title'))
                      ->join('forms', 'forms.id', 'responses.form_id')
