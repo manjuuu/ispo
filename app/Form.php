@@ -27,4 +27,8 @@ class Form extends Model
     {
         return $this->hasMany('App\Question');
     }
+    public function responses()
+    {
+        return $this->hasMany('App\Response');
+    }
 }

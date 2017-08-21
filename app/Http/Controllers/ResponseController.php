@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Form;
-use App\Response;
+use DB;
 use Auth;
 
 class ResponseController extends Controller
@@ -17,7 +17,19 @@ class ResponseController extends Controller
     public function index()
     {
         $forms = Form::get()->load('questions');
-        return view('response.index', compact('forms'));
+        $today = DB::table('responses')
+                     ->select(DB::raw('count(*) as aggergate, forms.title'))
+                     ->join('forms', 'forms.id', 'responses.form_id')
+                     ->where('responses.created_at', '>=', date('Y-m-d'))
+                     ->where('responses.user_id', '=', Auth::id())
+                     ->groupBy('forms.title')
+                     ->get();
+        $groups = DB::table('groups')
+                      ->select(DB::raw('groups.title, can_edit, can_enroll'))
+                      ->join('user_groups', 'groups.id', 'user_groups.group_id')
+                      ->where('user_groups.user_id', '=', Auth::id())
+                      ->get();
+        return view('response.index', compact('forms', 'today', 'groups'));
     }
 
     /**
