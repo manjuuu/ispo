@@ -63,6 +63,7 @@
           </div>
         @endforeach
       </div>
+      {{ $forms->links() }}
     </div>
   </div>
 </div>

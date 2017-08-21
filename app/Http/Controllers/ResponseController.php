@@ -77,10 +77,10 @@ class ResponseController extends Controller
     public function forms()
     {
         if (Auth::user()->admin == 1) {
-            $forms = Form::all()->load('group');
+            $forms = Form::with('group')->paginate(6);
         } else {
             $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
-            $forms = Form::whereIn('group_id', $groups)->get()->load('group');
+            $forms = Form::whereIn('group_id', $groups)->with('group')->paginate(6);
         }
 
         return view('reports.index', compact('forms'));
