@@ -127,6 +127,14 @@
       		url,'popUpWindow','height=500,width=400,left=5,top=5,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
       }
       </script>
+      <script>
+        function keepAlive(){
+          $.ajax({type:"get", url:"{{ env('APP_FOLDER','') }}/ping"});
+        }
+        setTimeout(keepAlive(),300000);
+        keepAlive();
+        </script>
+
       @stack('scripts')
 
   </body>
