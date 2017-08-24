@@ -40,7 +40,7 @@ $(function(){
   $("#{{ 'q'.$question->id }}").change(function(){
       var q{{$question->id}}name = $(this).val();
       var q{{$question->id}}menu = $("#second-{{ 'q'.$question->id }}");
-      menu.empty();
+      q{{$question->id}}menu.empty();
       $.each(q{{$question->id}}temp[q{{$question->id}}name], function(){
           $("<option />")
           .html(this.name)
