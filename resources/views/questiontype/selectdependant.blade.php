@@ -11,7 +11,7 @@
 
 @push('scripts')
   <script>
-  var items = [
+  var q{{$question->id}}items = [
 {
     name: '- Select an Option -',
     subitems: []
@@ -30,21 +30,21 @@
 ];
 
 $(function(){
-  var temp = {};
-  $.each(items, function(){
+  var q{{$question->id}}temp = {};
+  $.each(q{{$question->id}}items, function(){
       $("<option />")
       .html(this.name)
       .appendTo("#{{ 'q'.$question->id }}");
-      temp[this.name] = this.subitems;
+      q{{$question->id}}temp[this.name] = this.subitems;
   });
   $("#{{ 'q'.$question->id }}").change(function(){
-      var name = $(this).val();
-      var menu = $("#second-{{ 'q'.$question->id }}");
+      var q{{$question->id}}name = $(this).val();
+      var q{{$question->id}}menu = $("#second-{{ 'q'.$question->id }}");
       menu.empty();
-      $.each(temp[name], function(){
+      $.each(q{{$question->id}}temp[q{{$question->id}}name], function(){
           $("<option />")
           .html(this.name)
-          .appendTo(menu);
+          .appendTo(q{{$question->id}}menu);
       });
   }).change();
 });
