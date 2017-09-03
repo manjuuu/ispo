@@ -27,7 +27,7 @@ class ResponseController extends Controller
             }
         }
 
-        $responses = Response::where('form_id', $form_id)->with('user')->paginate(15);
+        $responses = Response::where('form_id', $form_id)->with('user')->orderBy('id', 'desc')->paginate(15);
         $questions = Question::where('form_id', $form_id)->get()->keyBy('id');
         $form = Form::find($form_id);
         return view('reports.responses', compact('responses', 'questions', 'form'));

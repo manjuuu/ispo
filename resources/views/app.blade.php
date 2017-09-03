@@ -72,7 +72,7 @@
               </ul>
             </li>
             @endif
-              <li><a href="/{{ env('APP_FOLDER') }}/reports">Reports</a></li>
+              <li><a href="{{ env('APP_FOLDER') }}/reports">Reports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -93,7 +93,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
       @if($errors->count() > 0)
         <div class="alert alert-danger" role="alert">
           <ul>

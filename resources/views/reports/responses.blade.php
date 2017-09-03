@@ -5,7 +5,7 @@
     <div class="panel-heading">Download {{ $form->title }}</div>
     <div class="panel-body" style="overflow: auto">
       <div class="alert alert-info">If you require a report, please let us know and we can create automated reporting spesific for your needs. Contact us via the Help link.</div>
-      <a class="btn btn-primary" href="{{ $form->id }}/export">Download Results Set</a>
+      <a class="btn btn-primary" href="#{{-- {{ $form->id }}/export --}}">Coming Soon</a>
 
     </div>
   </div>
