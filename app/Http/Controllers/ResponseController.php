@@ -8,6 +8,8 @@ use App\Response;
 use App\Question;
 use DB;
 use Auth;
+use App\UserGroup;
+use Carbon\Carbon;
 
 class ResponseController extends Controller
 {
@@ -20,7 +22,7 @@ class ResponseController extends Controller
     {
         if (Auth::user()->admin == 0) {
             $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
-            $form_ct = Form::whereIn('group_id', $groups)->where('form_id', $form_id)->count();
+            $form_ct = Form::whereIn('group_id', $groups)->where('id', $form_id)->count();
 
             if ($form_ct == 0) {
                 return redirect()->back();
@@ -32,46 +34,66 @@ class ResponseController extends Controller
         $form = Form::find($form_id);
         return view('reports.responses', compact('responses', 'questions', 'form'));
     }
-    public function export($form_id)
+    public function export($form_id, $daterange)
     {
         if (Auth::user()->admin == 0) {
             $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
-            $form_ct = Form::whereIn('group_id', $groups)->where('form_id', $form_id)->count();
+            $form_ct = Form::whereIn('group_id', $groups)->where('id', $form_id)->count();
 
             if ($form_ct == 0) {
                 return redirect()->back();
             }
         }
-
-        $responses = Response::where('form_id', $form_id)->with('user')->get();
+        if($daterange == 1) {
+            $subDays = 1;
+        } elseif($daterange == 2) {
+            $subDays = 7;
+        } elseif($daterange == 3) {
+            $subDays = 14;
+        } elseif($daterange == 4) {
+            $subDays = 30;
+        } else {
+            $subDays = 1;
+        }
+        $date = Carbon::now()->subDay($subDays);
+        $responses = Response::where('form_id', $form_id)->where('created_at', '>=', $date)->with('user')->get();
         $questions = Question::where('form_id', $form_id)->get()->keyBy('id');
-
-        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
-
-        $row = ['User', 'Created At'];
+        $headers = [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0'
+            , 'Content-type' => 'text/csv'
+            , 'Content-Disposition' => 'attachment; filename=export.csv'
+            , 'Expires' => '0'
+            , 'Pragma' => 'public'
+        ];
+        $header = ['User', 'Created At'];
 
         foreach ($questions as $question) {
-            $row[] = $question->title;
+            $header[] = $question->title;
         }
 
-        $csv->insertOne($row);
-
-        $responses->each(function ($response) use ($csv, $questions) {
-            $row = [
+       $callback = function() use ($responses, $questions, $header)
+        {
+            $handler = fopen('php://output', 'w');
+            fputcsv($handler, $header);
+            foreach ($responses as $response) {
+                $row = [
                     $response->user->username,
                     $response->created_at,
                   ];
-            foreach ($questions as $question) {
-                if (array_key_exists('q'.$question->id, $response->response_request)) {
-                    $row[] = $response->response_request['q'.$question->id];
-                } else {
-                    $row[] = '';
+                foreach ($questions as $question) {
+                    if (array_key_exists('q'.$question->id, $response->response_request)) {
+                        $row[] = $response->response_request['q'.$question->id];
+                    } else {
+                        $row[] = '';
+                    }
                 }
+                fputcsv($handler, $row);
             }
-            $csv->insertOne($row);
-        });
+            fclose($handler);
+        };
 
-        $csv->output('export.csv');
+        return response()->stream($callback, 200, $headers);
+
     }
 
     public function forms()
