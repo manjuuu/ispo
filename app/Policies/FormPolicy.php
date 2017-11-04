@@ -26,7 +26,7 @@ class FormPolicy
      */
     public function view(User $user, Form $form)
     {
-        if (in_array($form->id, $user->groups->pluck('id')->toArray())) {
+        if (in_array($form->group_id, $user->groups->pluck('id')->toArray())) {
             return true;
         }
     }

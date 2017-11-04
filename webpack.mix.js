@@ -16,6 +16,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'resources/assets/css/libs/sweetalert2.min.css'
     ], 'public/css/library.css')
     .scripts([
-      'resources/assets/js/libs/sweetalert2.min.js'
+      'resources/assets/js/libs/sweetalert2.min.js',
+      'resources/assets/js/libs/rsv.min.js'
     ], 'public/js/library.js')
    .sass('resources/assets/sass/app.scss', 'public/css');
