@@ -14,10 +14,19 @@
     </div>
   </div>
 @endsection
-@push('script')
+@push('scripts')
 <script>
+  function sweetFormIssue(f, errorInfo) {
+    for (var i=0; i<errorInfo.length; i++) {
+      swal({
+        text: errorInfo[i][1],
+        type: 'error',
+      })
+    }
+    return false;
+  }
   $(function() {
-  $("#responseForm").RSV({
+  $("#responseForm").rsv({
     onCompleteHandler: sweetFormIssue,
     errorFieldClass: "errorField",
     rules: [
@@ -25,10 +34,13 @@
         @if($question->questiontype->type == 'numeric')
         "digits_only,{{ 'q'.$question->id }},{{ $question->title }} must be a number.",
         @endif
+        @if($question->validation !== '')
         "{{ $question->validation }}",
+        @endif
       @endforeach
     ]
   });
 });
+
 </script>
 @endpush
