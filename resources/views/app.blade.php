@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }}</title>
-    <link rel="stylesheet" href="{{ env('APP_FOLDER').'/css/app.css' }}">
-    <link rel="stylesheet" href="{{ env('APP_FOLDER').'/css/library.css' }}">
+    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'/css/app.css' }}">
+    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'/css/library.css' }}">
     <link rel="shortcut icon" href="favicon.ico">
     <style>
       body {
@@ -110,8 +110,8 @@
       </div>
     </div>
 
-    <script src="{{ env('APP_FOLDER').'/js/app.js' }}"></script>
-    <script src="{{ env('APP_FOLDER').'/js/library.js' }}"></script>
+    <script src="/{{ env('APP_FOLDER').'/js/app.js' }}"></script>
+    <script src="/{{ env('APP_FOLDER').'/js/library.js' }}"></script>
     @if(session('message'))
       <script>
       swal({
@@ -129,7 +129,7 @@
       </script>
       <script>
         function keepAlive(){
-          $.ajax({type:"get", url:"{{ env('APP_FOLDER','') }}/ping"});
+          $.ajax({type:"get", url:"/{{ env('APP_FOLDER','') }}/ping"});
         }
         setTimeout(keepAlive(),300000);
         keepAlive();
