@@ -15,6 +15,7 @@ class Validation extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->string('validation');
+            $table->string('help');
         });
     }
 

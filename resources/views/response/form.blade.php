@@ -8,9 +8,10 @@
       {!! BootForm::open(['url' => 'response', 'id' => 'responseForm', 'onsubmit' => 'return rsv.validate(this, formRules)']) !!}
       @foreach($form->questions as $question)
         @includeIf('questiontype.'.$question->questiontype->type)
+        <small class="form-text text-muted">{{$question->help}}</small>
       @endforeach
         <input type="hidden" name="_form" value="{{ encrypt($form->id) }}" />
-        <div class="form-group"><div><input class="btn btn-primary" name="_savestate" type="submit" value="Save >> Repeat">&nbsp;<input class="btn btn-info" name="_savestate" type="submit" value="Save >> New Form"></div></div>
+        <div class="form-group"><div><input class="btn btn-primary" name="_savestate" type="submit" value="Save >> Repeat">&nbsp;<input class="btn btn-default" name="_savestate" type="submit" value="Save >> New Form"> <a href="/" class="btn btn-default">New Form</a></div></div>
       {!! BootForm::close() !!}
     </div>
   </div>
