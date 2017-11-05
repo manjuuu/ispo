@@ -11,30 +11,30 @@
 @push('scripts')
   <script>
   window.onload = function () {
-    var TimerActiveTime = 0;
-    var addTimerActiveTime = document.getElementById('{{ 'q'.$question->id }}')
-    var intvl;
-    var tSt = document.getElementById('start-{{ 'q'.$question->id }}');
-    var tSp = document.getElementById('stop-{{ 'q'.$question->id }}');
-    var tRe = document.getElementById('reset-{{ 'q'.$question->id }}');
+    var {{ 'q'.$question->id }}TimerActiveTime = 0;
+    var {{ 'q'.$question->id }}addTimerActiveTime = document.getElementById('{{ 'q'.$question->id }}')
+    var {{ 'q'.$question->id }}intvl;
+    var {{ 'q'.$question->id }}tSt = document.getElementById('start-{{ 'q'.$question->id }}');
+    var {{ 'q'.$question->id }}tSp = document.getElementById('stop-{{ 'q'.$question->id }}');
+    var {{ 'q'.$question->id }}tRe = document.getElementById('reset-{{ 'q'.$question->id }}');
 
-    tSt.onclick = function() {
-       clearInterval(intvl);
-       intvl = setInterval(startTimer, 1000);
+    {{ 'q'.$question->id }}tSt.onclick = function() {
+       clearInterval({{ 'q'.$question->id }}intvl);
+       intvl = setInterval(start{{ 'q'.$question->id }}Timer, 1000);
     }
-    tSp.onclick = function() {
-         clearInterval(intvl);
-    }
-
-    tRe.onclick = function() {
-      clearInterval(intvl);
-    	TimerActiveTime = 0;
-    	addTimerActiveTime.value = TimerActiveTime;
+    {{ 'q'.$question->id }}tSp.onclick = function() {
+         clearInterval({{ 'q'.$question->id }}intvl);
     }
 
-    function startTimer () {
-      TimerActiveTime++;
-      addTimerActiveTime.value = TimerActiveTime;
+    {{ 'q'.$question->id }}tRe.onclick = function() {
+      clearInterval({{ 'q'.$question->id }}intvl);
+    	{{ 'q'.$question->id }}TimerActiveTime = 0;
+    	{{ 'q'.$question->id }}addTimerActiveTime.value = {{ 'q'.$question->id }}TimerActiveTime;
+    }
+
+    function start{{ 'q'.$question->id }}Timer () {
+      {{ 'q'.$question->id }}TimerActiveTime++;
+      {{ 'q'.$question->id }}addTimerActiveTime.value = {{ 'q'.$question->id }}TimerActiveTime;
     }
 
 

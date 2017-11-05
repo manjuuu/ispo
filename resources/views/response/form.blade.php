@@ -4,7 +4,8 @@
   <div class="panel panel-default">
     <div class="panel-heading">{{ $form->title }}</div>
     <div class="panel-body">
-      {!! BootForm::open(['url' => 'response', 'name' => 'responseForm']) !!}
+      <div class="alert alert-danger" id="rsvErrors" style="display: none;"></div>
+      {!! BootForm::open(['url' => 'response', 'id' => 'responseForm', 'onsubmit' => 'return rsv.validate(this, formRules)']) !!}
       @foreach($form->questions as $question)
         @includeIf('questiontype.'.$question->questiontype->type)
       @endforeach
@@ -21,26 +22,25 @@
       swal({
         text: errorInfo[i][1],
         type: 'error',
-      })
+      });
+      console.log("uh oh" + errorInfo[i][1]);
     }
     return false;
   }
-  $(function() {
-  $("#responseForm").rsv({
-    onCompleteHandler: sweetFormIssue,
-    errorFieldClass: "errorField",
-    rules: [
+  function sweetSuccess() {
+    document.getElementById("responseForm").submit();
+    return true;
+  }
+var formRules = [
       @foreach($form->questions as $question)
         @if($question->questiontype->type == 'numeric')
         "digits_only,{{ 'q'.$question->id }},{{ $question->title }} must be a number.",
         @endif
-        @if($question->validation !== '')
+        @if(!empty($question->validation))
         "{{ $question->validation }}",
         @endif
       @endforeach
-    ]
-  });
-});
+    ];
 
 </script>
 @endpush
