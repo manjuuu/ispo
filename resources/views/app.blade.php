@@ -72,21 +72,21 @@
               </ul>
             </li>
             @endif
-              <li><a href="/{{ env('APP_FOLDER') }}/reports">Reports</a></li>
+              <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->username }} <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="https://mystats.services.conduent.com/support"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>Help</a></li>
-                <li><a href="/{{ env('APP_FOLDER') }}/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
+                <li><a href="{{ action('AuthController@logout') }}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
               </ul>
             </li>
           </ul>
         </div>
         @else
         <div class="navbar-header">
-          <a class="navbar-brand" href="/{{ env('APP_FOLDER') }}/"><span class="brand-icon-primary glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ config('app.name') }}</a>
+          <a class="navbar-brand" href="{{ action('HomeController@index') }}"><span class="brand-icon-primary glyphicon glyphicon-earphone" aria-hidden="true"></span> {{ config('app.name') }}</a>
         </div>
         @endif
 
