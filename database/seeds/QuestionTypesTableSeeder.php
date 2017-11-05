@@ -25,5 +25,6 @@ class QuestionTypesTableSeeder extends Seeder
         DB::table('question_types')->insert(['title' => 'Dependant Select', 'type' => 'selectdependant', 'uses_option_groups' => true]);
         DB::table('question_types')->insert(['title' => 'Timer', 'type' => 'timer']);
         DB::table('question_types')->insert(['title' => 'Auto Starting Timer', 'type' => 'autotimer']);
+        DB::table('question_types')->insert(['title' => 'Typeahead', 'type' => 'typeahead']);
     }
 }
