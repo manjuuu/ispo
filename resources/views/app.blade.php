@@ -38,7 +38,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            @if(Auth::user()->admin == 1 or 1 == 1)
+            @if(Auth::user()->admin == 1)
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Editor <span class="caret"></span></a>
               <ul class="dropdown-menu">
