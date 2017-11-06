@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Form;
+use App\UserGroup;
+use Auth;
+use App\Group;
 
 class FormController extends Controller
 {
@@ -13,7 +17,13 @@ class FormController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::user()->admin == 1) {
+            $forms = Form::with('group')->paginate(6);
+        } else {
+            $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+            $forms = Form::whereIn('group_id', $groups)->with('group')->paginate(6);
+        }
+        return view('editor.form.index', compact('forms'));
     }
 
     /**
@@ -23,7 +33,9 @@ class FormController extends Controller
      */
     public function create()
     {
-        //
+        $group_id = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+        $groups = Group::whereIn('id', $group_id)->get();
+        return view('editor.form.create', compact('groups'));
     }
 
     /**
@@ -34,7 +46,12 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $form = new Form;
+        $form->title = $request->title;
+        $form->active = 1;
+        $form->group_id = $request->group_id;
+        $form->save();
+        return redirect()->action('FormController@edit', [$form->id]);
     }
 
     /**
@@ -45,7 +62,7 @@ class FormController extends Controller
      */
     public function show($id)
     {
-        //
+        view('editor.form.index');
     }
 
     /**
@@ -56,7 +73,8 @@ class FormController extends Controller
      */
     public function edit($id)
     {
-        //
+        $form = Form::find($id)->load(['group','questions']);
+        return view('editor.form.edit', compact('form'));
     }
 
     /**
@@ -68,7 +86,11 @@ class FormController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $form = Form::find($id);
+        $form->title = $request->title;
+        $form->active = $request->active;
+        $form->save();
+        return redirect()->action('FormController@edit', [$form->id]);
     }
 
     /**
@@ -79,6 +101,8 @@ class FormController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $form = Form::find($id);
+        $form->delete();
+        return redirect()->action('FormController@index');
     }
 }

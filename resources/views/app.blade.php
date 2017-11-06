@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }}</title>
-    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'/css/app.css' }}">
-    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'/css/library.css' }}">
+    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/app.css' }}">
+    <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/library.css' }}">
     <link rel="shortcut icon" href="favicon.ico">
     <style>
       body {
@@ -38,37 +38,17 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            @if(Auth::user()->admin == 0 && 1 == 2)
-
+            @if(Auth::user()->admin == 1 or 1 == 1)
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Editor <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Permissions & Users</li>
-                <li><a href="#"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Groups</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
+{{--                 <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Forms & Questions</li>
-                <li><a href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Forms</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Option Groups</a></li>
-              </ul>
-            </li>
-            @endif
-
-            @if(Auth::user()->admin == 1)
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Permissions & Users</li>
-                <li><a href="#"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Groups</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Forms & Questions</li>
-                <li><a href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Forms</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Option Groups</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Usage</li>
-                <li><a href="#"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Active Users</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Responses</a></li>
+ --}}
+              <li class="dropdown-header">Forms & Questions</li>
+                <li><a href="{{ action('FormController@index') }}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Forms</a></li>
+                <li><a href="{{ action('OptionGroupController@index') }}"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Option Groups</a></li>
               </ul>
             </li>
             @endif
@@ -110,8 +90,8 @@
       </div>
     </div>
 
-    <script src="/{{ env('APP_FOLDER').'/js/app.js' }}"></script>
-    <script src="/{{ env('APP_FOLDER').'/js/library.js' }}"></script>
+    <script src="/{{ env('APP_FOLDER').'js/app.js' }}"></script>
+    <script src="/{{ env('APP_FOLDER').'js/library.js' }}"></script>
     @if(session('message'))
       <script>
       swal({
@@ -129,7 +109,7 @@
       </script>
       <script>
         function keepAlive(){
-          $.ajax({type:"get", url:"/{{ env('APP_FOLDER','') }}/ping"});
+          $.ajax({type:"get", url:"/{{ env('APP_FOLDER','') }}ping"});
         }
         setTimeout(keepAlive(),300000);
         keepAlive();

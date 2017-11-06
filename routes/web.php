@@ -19,6 +19,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/{id}/export/{range}', 'ResponseController@export');
     Route::get('reports', 'ResponseController@forms');
     Route::get('response/{id}', 'ResponseController@create')->name('response');
+    Route::resource('editor/forms', 'FormController');
+    Route::resource('editor/questions', 'QuestionController');
+    Route::resource('editor/optiongroups', 'OptionGroupController');
 });
 
 Route::get('login', 'AuthController@index')->name('login');

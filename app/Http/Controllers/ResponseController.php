@@ -20,30 +20,15 @@ class ResponseController extends Controller
      */
     public function responses($form_id)
     {
-        if (Auth::user()->admin == 0) {
-            $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
-            $form_ct = Form::whereIn('group_id', $groups)->where('id', $form_id)->count();
-
-            if ($form_ct == 0) {
-                return redirect()->back();
-            }
-        }
-
         $responses = Response::where('form_id', $form_id)->with('user')->orderBy('id', 'desc')->paginate(15);
         $questions = Question::where('form_id', $form_id)->get()->keyBy('id');
         $form = Form::find($form_id);
+        $this->authorize('view', $form);
         return view('reports.responses', compact('responses', 'questions', 'form'));
     }
     public function export($form_id, $daterange)
     {
-        if (Auth::user()->admin == 0) {
-            $groups = UserGroup::where('user_id', Auth::id())->where('can_edit', 1)->select('group_id')->get();
-            $form_ct = Form::whereIn('group_id', $groups)->where('id', $form_id)->count();
-
-            if ($form_ct == 0) {
-                return redirect()->back();
-            }
-        }
+        $this->authorize('view', Form::find($form_id));
         if($daterange == 1) {
             $subDays = 1;
         } elseif($daterange == 2) {
