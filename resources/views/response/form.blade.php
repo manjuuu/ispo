@@ -11,7 +11,7 @@
         <small class="form-text text-muted">{{$question->help}}</small>
       @endforeach
         <input type="hidden" name="_form" value="{{ encrypt($form->id) }}" />
-        <div class="form-group"><div><input class="btn btn-link" name="_savestate" type="submit" value="Save >> Repeat">&nbsp;<input class="btn btn-link" name="_savestate" type="submit" value="Save >> New Form"> <a href="/" class="btn btn-link">New Form</a></div></div>
+        <div class="form-group"><div><input class="btn btn-link" name="_savestate" type="submit" value="Save >> Repeat">&nbsp;<input class="btn btn-link" name="_savestate" type="submit" value="Save >> New Form"> <a href="{{ action('HomeController@index') }}" class="btn btn-link">Cancel</a></div></div>
       {!! BootForm::close() !!}
     </div>
   </div>
