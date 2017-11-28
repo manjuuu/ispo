@@ -14,7 +14,7 @@
                 <a class="btn btn-sm btn-default" href="{{ action('FormController@edit', [$form->id]) }}">Edit</a>
               </div>
             </h4>
-            {{ $form->group->title }}
+            {{ $form->group->title or 'Unknown' }}
           </div>
         @endforeach
       </div>

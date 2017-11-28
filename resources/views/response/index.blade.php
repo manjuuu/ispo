@@ -59,7 +59,7 @@
                 <a class="btn btn-sm btn-default" href="JavaScript:newPopup('{{ action('ResponseController@create', [$form->id]) }}');">Open a Popup</a>
               </div>
             </h4>
-            {{ $form->group->title }}
+            {{ $form->group->title or 'Unkown Group'}}
           </div>
         @endforeach
       </div>

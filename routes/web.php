@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('editor/forms', 'FormController');
     Route::resource('editor/questions', 'QuestionController');
     Route::resource('editor/optiongroups', 'OptionGroupController');
+    Route::resource('editor/options', 'OptionController');
 });
 
 Route::get('login', 'AuthController@index')->name('login');
