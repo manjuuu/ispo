@@ -20,7 +20,7 @@ class OptionGroupController extends Controller
         if (Auth::user()->admin == 1) {
             $optiongroups = OptionGroup::with('group')->paginate(6);
         } else {
-            $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+            $groups = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
             $optiongroups = OptionGroup::whereIn('group_id', $groups)->with('group')->paginate(6);
         }
         return view('editor.optiongroup.index', compact('optiongroups'));
@@ -33,7 +33,7 @@ class OptionGroupController extends Controller
      */
     public function create()
     {
-        $group_id = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
+        $group_id = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
         $groups = Group::whereIn('id', $group_id)->get();
         return view('editor.optiongroup.create', compact('groups'));
     }
@@ -48,7 +48,6 @@ class OptionGroupController extends Controller
     {
         $form = new OptionGroup;
         $form->title = $request->title;
-        $form->active = 1;
         $form->group_id = $request->group_id;
         $form->save();
         return redirect()->action('OptionGroupController@edit', [$form->id]);
@@ -88,7 +87,6 @@ class OptionGroupController extends Controller
     {
         $form = OptionGroup::find($id);
         $form->title = $request->title;
-        $form->active = $request->active;
         $form->save();
         return redirect()->action('OptionGroupController@edit', [$form->id]);
     }

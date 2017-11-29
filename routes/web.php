@@ -19,10 +19,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/{id}/export/{range}', 'ResponseController@export');
     Route::get('reports', 'ResponseController@forms');
     Route::get('response/{id}', 'ResponseController@create')->name('response');
+    Route::middleware(['editor'])->group(function () {
     Route::resource('editor/forms', 'FormController');
     Route::resource('editor/questions', 'QuestionController');
     Route::resource('editor/optiongroups', 'OptionGroupController');
     Route::resource('editor/options', 'OptionController');
+});
 });
 
 Route::get('login', 'AuthController@index')->name('login');
