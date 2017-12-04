@@ -17,10 +17,16 @@ class Editor
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (!Auth::user()->groups()->where('can_edit', 1)->exists()) {
-            return redirect(route('forms'));
+        if(Auth::user()->admin == 1)
+        {
+            return $next($request);
         }
 
-        return $next($request);
+        if (Auth::user()->groups()->where('can_edit', 1)->exists()) {
+            return $next($request);
+        }
+
+        return redirect(route('forms'));
+
     }
 }

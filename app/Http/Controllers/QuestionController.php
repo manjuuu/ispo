@@ -30,10 +30,14 @@ class QuestionController extends Controller
      */
     public function create(Request $request)
     {
-        $group_id = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
-        $form = Form::where('id', $request->form_id)->whereIn('group_id', $group_id)->first();
+        if (Auth::user()->admin == 1) {
+            $form = Form::where('id', $request->form_id)->first();
+        } else {
+            $group_id = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
+            $form = Form::where('id', $request->form_id)->whereIn('group_id', $group_id)->first();
+        }
         $question_types = QuestionType::all();
-        $option_groups = OptionGroup::whereIn('id', $group_id)->get();
+        $option_groups = OptionGroup::where('id', $form->group_id)->get();
         return view('editor.question.create', compact('question_types', 'option_groups', 'form'));
     }
 
