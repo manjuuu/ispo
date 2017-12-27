@@ -37,7 +37,7 @@ class QuestionController extends Controller
             $form = Form::where('id', $request->form_id)->whereIn('group_id', $group_id)->first();
         }
         $question_types = QuestionType::all();
-        $option_groups = OptionGroup::where('id', $form->group_id)->get();
+        $option_groups = OptionGroup::where('group_id', $form->group_id)->get();
         return view('editor.question.create', compact('question_types', 'option_groups', 'form'));
     }
 
