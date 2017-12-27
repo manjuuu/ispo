@@ -81,7 +81,7 @@ class QuestionController extends Controller
         $form = Form::find($question->form_id);
         $question_types = QuestionType::all();
         $group_id = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
-        $option_groups = OptionGroup::whereIn('id', $group_id)->get();
+        $option_groups = OptionGroup::where('group_id', $form->group_id)->get();
         return view('editor.question.edit', compact('question_types', 'option_groups', 'form', 'question'));
     }
 
