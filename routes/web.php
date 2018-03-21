@@ -15,6 +15,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('forms');
     Route::get('response', 'ResponseController@index');
     Route::post('response', 'ResponseController@store');
+    Route::get('task/{id}', 'TaskController@show');
+    Route::post('task', 'TaskController@store');
+    Route::get('queue/{id}', 'QueueController@show');
+    Route::get('queue', 'QueueController@index');
     Route::get('reports/{id}', 'ResponseController@responses');
     Route::get('reports/{id}/export/{range}', 'ResponseController@export');
     Route::get('reports', 'ResponseController@forms');

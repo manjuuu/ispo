@@ -47,6 +47,7 @@
               </ul>
             </li>
             @endif
+              <li><a href="{{ action('QueueController@index') }}">Queues</a></li>
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
