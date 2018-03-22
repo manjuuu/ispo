@@ -7,6 +7,7 @@ use League\Csv\Reader;
 use App\Task;
 use Auth;
 use App\Queue;
+use App\ApiToken;
 
 class ImportController extends Controller
 {
@@ -29,5 +30,22 @@ class ImportController extends Controller
             $task = Task::create(['queue_id' => $request->queue_id, 'task_details' => $record, 'created_user_id' => Auth::id()]);
         }
         return redirect()->back()->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Your CSV was imported.']]);
+    }
+    public function api(Request $request)
+    {
+        $token_id = $request->header('X-DISPO-TOKEN');
+
+        $token = ApiToken::where('token', $token_id)->first();
+
+        if(empty($token))
+        {
+            return abort(401, 'Not authorized to access this queue.');
+        }
+
+        $queue = Queue::find($token->queue_id);
+
+        $task = Task::create(['queue_id' => $queue->id, 'task_details' => ($request->all()), 'created_user_id' => 0]);
+        
+        return $task->id;
     }
 }

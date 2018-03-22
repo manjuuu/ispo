@@ -60,6 +60,8 @@ class TaskController extends Controller
         if(empty($task)) {
             return redirect()->action('QueueController@index')->with(['message' => ['time' => 2000, 'type' => 'error', 'message' =>'Invalid Task']]);
         }
+        $this->authorize('view', $task->queue);
+
         if($task->locked()) 
         {
             return redirect()->action('QueueController@index')->with(['message' => ['time' => 2000, 'type' => 'error', 'message' =>'Task is locked. Please try again in 10 minuites.']]);
@@ -83,6 +85,7 @@ class TaskController extends Controller
     public function skip(Request $request, $id)
     {
         $task = Task::find($id);
+        $this->authorize('view', $task->queue);
         $lock = TaskLock::create(['user_id' => 0, 'task_id' => $task->id]);
         return redirect()->action('QueueController@show',[$task->queue_id])->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Task Skipped for 10 mins.']]);
     }
