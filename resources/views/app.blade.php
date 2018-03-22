@@ -40,13 +40,17 @@
           <ul class="nav navbar-nav">
             @if(Auth::user()->admin == 1 or Auth::user()->groups()->where('can_edit', 1)->exists())
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Editor <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Config <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ action('FormController@index') }}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Forms</a></li>
                 <li><a href="{{ action('OptionGroupController@index') }}"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Option Groups</a></li>
+                    <li role="separator" class="divider"></li>
+                <li><a href="{{ action('ImportController@index') }}"><span class="glyphicon glyphicon-import" aria-hidden="true"></span> Queue Import</a></li>
+
               </ul>
             </li>
             @endif
+              <li><a href="/{{ env('APP_FOLDER') }}">Forms</a></li>
               <li><a href="{{ action('QueueController@index') }}">Queues</a></li>
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
           </ul>

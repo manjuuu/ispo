@@ -80,16 +80,11 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function skip(Request $request, $id)
     {
-        //
+        $task = Task::find($id);
+        $lock = TaskLock::create(['user_id' => 0, 'task_id' => $task->id]);
+        return redirect()->action('QueueController@show',[$task->queue_id])->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Task Skipped for 10 mins.']]);
     }
 
     /**

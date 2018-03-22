@@ -26,6 +26,16 @@
                 @endif
         </div>
       </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">Task Info</div>
+        <div class="panel-body">
+          <ul>
+            <li><b>Imported by</b>: {{ $task->importedBy->name ?? 'Automated Import'}}</li>
+            <li><b>Created</b>: <abbr name="{{ $task->created_at ?? 'Unknown' }}">{{ optional($task->created_at)->diffForHumans() ?? 'Unknown'}}</abbr></li>
+            <li><b>Task ID</b>: {{ $task->id }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
       <div class="col-md-8">
@@ -39,7 +49,13 @@
         <small class="form-text text-muted">{{$question->help}}</small>
       @endforeach
         <input type="hidden" name="_task" value="{{ encrypt($task->id) }}" />
-        <div class="form-group"><div><input class="btn btn-link" name="_savestate" type="submit" value="Save"> <a href="{{ action('QueueController@index') }}" class="btn btn-link">Cancel</a></div></div>
+        <div class="form-group">
+          <div>
+            <input class="btn btn-link" name="_savestate" type="submit" value="Save"> 
+            <a href="{{ action('QueueController@index') }}" class="btn btn-link">Cancel</a>
+            <a href="{{ action('TaskController@skip', [$task->id]) }}" class="btn btn-link">Snooze</a>
+          </div>
+        </div>
       {!! BootForm::close() !!}
     </div>
   </div>

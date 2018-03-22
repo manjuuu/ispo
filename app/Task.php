@@ -16,6 +16,10 @@ class Task extends Model
     {
         return $this->belongsTo('App\Queue');
     }
+    public function importedBy()
+    {
+        return $this->belongsTo('App\User', 'created_user_id', 'id');
+    }
     public function locks()
     {
         return $this->hasMany('App\TaskLock')->where('created_at', '>', Carbon::now()->subminutes(10))->where('user_id', '<>', Auth::id());
@@ -34,5 +38,6 @@ class Task extends Model
     protected $casts = [
       'task_details' => 'array',
     ];
+    protected $fillable = ['queue_id', 'task_details','created_user_id'];
 
 }

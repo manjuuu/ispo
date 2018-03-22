@@ -59,7 +59,7 @@ class QueueController extends Controller
 
         $tasks = Task::where('queue_id', $id)->has('locks', '<', 1)->has('response', '<', 1)->orderBy('created_at', 'asc')->select(['id'])->first();
         if(empty($tasks)) {
-            return redirect()->action('QueueController@index')->with(['message' => ['time' => 2000, 'type' => 'error', 'message' =>'No more work in this queue.']]);
+            return redirect()->action('QueueController@index')->with(['message' => ['time' => 2000, 'type' => 'error', 'message' =>'No available tasks in this queue. Try again later.']]);
         }
         return redirect()->action('TaskController@show', [$tasks->id]);
     }
