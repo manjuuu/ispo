@@ -74,7 +74,10 @@
     </nav>
 
     <div class="container-fluid">
-      @if($errors->count() > 0)
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+              @if($errors->count() > 0)
         <div class="alert alert-danger" role="alert">
           <ul>
             @foreach($errors as $error)
@@ -83,8 +86,12 @@
           </ul>
       </div>
       @endif
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      @if(session('message'))
+        <div class="alert alert-info" role="alert">
+          {{ session('message')['message'] }}
+      </div>
+      @endif
+
           @yield('content')
         </div>
       </div>
@@ -92,15 +99,6 @@
 
     <script src="/{{ env('APP_FOLDER').'js/app.js' }}"></script>
     <script src="/{{ env('APP_FOLDER').'js/library.js' }}"></script>
-    @if(session('message'))
-      <script>
-      swal({
-        text: '{{ session('message')['message'] }}',
-        timer: {{ session('message')['time'] }},
-        type: '{{ session('message')['type'] }}',
-      })
-      </script>
-    @endif
     <script>
       function newPopup(url) {
       	popupWindow = window.open(
