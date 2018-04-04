@@ -31,7 +31,7 @@
         <div class="panel-body">
           <ul>
             <li><b>Imported by</b>: {{ $task->importedBy->name ?? 'Automated Import'}}</li>
-            <li><b>Created</b>: <abbr name="{{ $task->created_at ?? 'Unknown' }}">{{ optional($task->created_at)->diffForHumans() ?? 'Unknown'}}</abbr></li>
+            <li><b>Created</b>: <abbr title="{{ $task->created_at ?? 'Unknown' }}">{{ $task->created_at ? $task->created_at->diffForHumans() : 'Unknown'}}</abbr></li>
             <li><b>Task ID</b>: {{ $task->id }}</li>
           </ul>
         </div>
