@@ -20,7 +20,7 @@
         @else
           <ul>
             @foreach($task->task_details as $key => $detail)
-                <li><b>{{ $key }}</b>: {!! $detail ?? 'No detail provided.' !!}</li>
+                <li><b>{{ $key }}</b>: {!! $detail or 'No detail provided.' !!}</li>
             @endforeach
           </ul>
                 @endif
@@ -30,9 +30,9 @@
         <div class="panel-heading">Task Info</div>
         <div class="panel-body">
           <ul>
-            <li><b>Imported by</b>: {{ $task->importedBy->name ?? 'Automated Import'}}</li>
+            <li><b>Imported by</b>: {{ $task->importedBy->name or 'Automated Import'}}</li>
             @if($task->created_at)
-              <li><b>Created</b>: <abbr title="{{ $task->created_at ?? 'Unknown' }}">{{ $task->created_at->diffForHumans() }}</abbr></li>
+              <li><b>Created</b>: <abbr title="{{ $task->created_at or 'Unknown' }}">{{ $task->created_at->diffForHumans() }}</abbr></li>
             @else
               <li><b>Created</b>: No Create Date</li>
             @endif

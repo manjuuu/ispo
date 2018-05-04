@@ -18,20 +18,6 @@
 @endsection
 @push('scripts')
 <script>
-  function sweetFormIssue(f, errorInfo) {
-    for (var i=0; i<errorInfo.length; i++) {
-      swal({
-        text: errorInfo[i][1],
-        type: 'error',
-      });
-      console.log("uh oh" + errorInfo[i][1]);
-    }
-    return false;
-  }
-  function sweetSuccess() {
-    document.getElementById("responseForm").submit();
-    return true;
-  }
 var formRules = [
       @foreach($form->questions as $question)
         @if($question->questiontype->type == 'numeric')
