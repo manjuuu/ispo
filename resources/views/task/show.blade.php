@@ -32,7 +32,7 @@
           <ul>
             <li><b>Imported by</b>: {{ $task->importedBy->name or 'Automated Import'}}</li>
             @if($task->created_at)
-              <li><b>Created</b>: <abbr title="{{ $task->created_at or 'Unknown' }}">{{ $task->created_at->diffForHumans() }}</abbr></li>
+              <li><b>Created</b>: <abbr title="{{ $task->created_at or 'Unknown' }}">{{ $task->created_at or 'Unknown' }}</abbr></li>
             @else
               <li><b>Created</b>: No Create Date</li>
             @endif
