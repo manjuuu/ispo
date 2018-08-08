@@ -14,10 +14,10 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::user()->admin == 1) {
-            $forms = Form::with('group')->paginate(6);
+            $forms = Form::with('group')->orderBy('group_id', 'asc')->orderBy('title', 'asc')->get();
         } else {
             $groups = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
-            $forms = Form::whereIn('group_id', $groups)->with('group')->paginate(6);
+            $forms = Form::whereIn('group_id', $groups)->orderBy('group_id', 'asc')->orderBy('title', 'asc')->get();
         }
 
         $today = DB::table('responses')

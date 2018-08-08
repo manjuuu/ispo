@@ -20,22 +20,28 @@
       @if($queues->count() == 0)
         <div class="alert alert-danger">You have no queues available. Please speak with your line manager.</div>
       @endif
-      <div class="list-group">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Queue</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
         @foreach($queues as $queue)
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">
-              <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> {{ $queue->title }} 
-                  <span class="label label-primary">{{ number_format($queue->tasks()->has('response', '<', 1)->count()) }} tasks</span>
-                  <span class="label label-danger">{{ number_format($queue->tasks()->has('response', '<', 1)->has('locks', '>', 0)->count()) }} locked tasks</span>
-              <div class="pull-right">
-                <a class="btn btn-sm btn-default" href="{{ action('QueueController@show', [$queue->id]) }}">Next Task</a>
-              </div>
-            </h4>
-            {{ $queue->group->title or 'Unkown Group'}}
-          </div>
+        <tr>
+          <td><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> {{ $queue->title }} ({{ $queue->group->title or 'Unkown Group'}})
+          <br/><span class="label label-primary">{{ number_format($queue->tasks()->has('response', '<', 1)->count()) }} tasks</span>
+                 <span class="label label-danger">{{ number_format($queue->tasks()->has('response', '<', 1)->has('locks', '>', 0)->count()) }} locked tasks</span>
+</td>
+          <td>
+                                  <a class="btn btn-sm btn-default" href="{{ action('QueueController@show', [$queue->id]) }}">Next Task</a>
+          </td>
+          </tr>
         @endforeach
-      </div>
-      {{ $queues->links() }}
+        </tbody>
+        </table>
     </div>
   </div>
 </div>

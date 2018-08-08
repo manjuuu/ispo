@@ -49,21 +49,27 @@
       @if($forms->count() == 0)
         <div class="alert alert-danger">You have no forms available. Please speak with your line manager.</div>
       @endif
-      <div class="list-group">
+
+
+        <table class="table">
+        <thead>
+          <tr>
+            <th>Form</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
         @foreach($forms as $form)
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">
-              <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> {{ $form->title }}
-              <div class="pull-right">
+        <tr>
+          <td><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> {{ $form->title }} ({{ $form->group->title or 'Unkown Group'}})</td>
+          <td>
                 <a class="btn btn-sm btn-default" href="{{ action('ResponseController@create', [$form->id]) }}">Open Form</a>
                 <a class="btn btn-sm btn-default" href="JavaScript:newPopup('{{ action('ResponseController@create', [$form->id]) }}');">Open a Popup</a>
-              </div>
-            </h4>
-            {{ $form->group->title or 'Unkown Group'}}
-          </div>
+          </td>
+          </tr>
         @endforeach
-      </div>
-      {{ $forms->links() }}
+        </tbody>
+        </table>
     </div>
   </div>
 </div>
