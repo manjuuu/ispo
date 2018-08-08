@@ -4,9 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\GroupScope;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Form extends Model
 {
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     /**
      * The "booting" method of the model.
      *
@@ -18,6 +23,7 @@ class Form extends Model
 
         static::addGlobalScope(new GroupScope);
     }
+
 
     public function group()
     {

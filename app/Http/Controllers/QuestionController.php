@@ -38,6 +38,8 @@ class QuestionController extends Controller
         }
         $question_types = QuestionType::all();
         $option_groups = OptionGroup::where('group_id', $form->group_id)->get();
+        $option_groups = $option_groups->pluck('title', 'id')->push(['title' => 'None', 'id' => 0]);
+
         return view('editor.question.create', compact('question_types', 'option_groups', 'form'));
     }
 
@@ -80,8 +82,9 @@ class QuestionController extends Controller
         $question = Question::find($id);
         $form = Form::find($question->form_id);
         $question_types = QuestionType::all();
-        $group_id = UserGroup::where('user_id', Auth::id())->select('group_id')->get();
         $option_groups = OptionGroup::where('group_id', $form->group_id)->get();
+        $option_groups = $option_groups->pluck('title', 'id')->push(['title' => 'None', 'id' => 0]);
+
         return view('editor.question.edit', compact('question_types', 'option_groups', 'form', 'question'));
     }
 
