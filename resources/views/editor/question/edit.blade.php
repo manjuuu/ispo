@@ -9,7 +9,7 @@
           {!! BootForm::open(['url' => action('QuestionController@update', [$question->id])]) !!}
             {!! BootForm::text('title', 'Question Name', $question->title) !!}
             {!! BootForm::select('question_type_id', 'Question Type', $question_types->pluck('title', 'id'), $question->question_type_id) !!}
-            {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups->pluck('title', 'id'), $question->option_group_id) !!}
+            {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups, $question->option_group_id) !!}
             <button type="submit" class="btn btn-default">Update</button>
             <input type="hidden" name="_method" value="PUT" />
           {!! BootForm::close() !!}
