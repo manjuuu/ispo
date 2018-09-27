@@ -8,6 +8,9 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    
+    protected $dontFlash = ['password', 'password_confirmation', '_token'];
+
     /**
      * A list of the exception types that should not be reported.
      *
