@@ -9,7 +9,8 @@ class Option extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    
+    protected $fillable = ['title', 'option_group_id'];
+
     public function optiongroup()
     {
         return $this->belongsTo('App\OptionGroup');

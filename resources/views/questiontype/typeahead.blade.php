@@ -3,7 +3,7 @@
   <script>
   $( function() {
     var {{ 'q'.$question->id }}TypeAhead = [
-        @foreach($question->optiongroup->options->pluck('title', 'title') as $title)
+        @foreach($question->optiongroup->options->sortBy('sort')->pluck('title', 'title') as $title)
             "{{ $title }}",
         @endforeach
     ];

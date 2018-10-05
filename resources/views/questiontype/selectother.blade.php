@@ -1,5 +1,5 @@
 @if($question->optiongroup->options->count() > 0)
-  {!! BootForm::select('q'.$question->id, $question->title, $question->optiongroup->options->pluck('title', 'title')) !!}
+  {!! BootForm::select('q'.$question->id, $question->title, $question->optiongroup->options->sortBy('sort')->pluck('title', 'title')) !!}
   <div id="{{ 'q'.$question->id }}Other"></div>
   <br/>
 @else

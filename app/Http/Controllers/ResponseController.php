@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Form;
 use App\Response;
 use App\Question;
+use App\Option;
 use DB;
 use Auth;
 use App\UserGroup;
@@ -127,6 +128,16 @@ class ResponseController extends Controller
         $response->response_attributes = session('passThough');
         $response->save();
 
+        $update = Question::where('form_id', $form_id)->where('update_options', true)->select(['id', 'option_group_id'])->get()->keyBy('id');
+        if($update->count() > 0) {
+            $update = $update->toArray();
+            foreach($request->except(['_form','_token','_savestate']) as $k => $v) {
+                $question_id = intval(preg_replace("/[^0-9]/", "", $k));
+                if(array_key_exists($question_id, $update)) {
+                    Option::firstOrNew(['option_group_id' => $update[$question_id]['option_group_id'], 'title' => $v, 'parent_id' => 0])->save();
+                }
+            }
+        }
         $request->session()->put('passThough', []);
         if ($request->_savestate == "Save >> New Form") {
             return redirect(route('forms'))->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'Disposition Saved']]);
