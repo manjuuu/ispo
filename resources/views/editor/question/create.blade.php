@@ -9,7 +9,7 @@
           {!! BootForm::open(['url' => action('QuestionController@store')]) !!}
             {!! BootForm::text('title', 'Question Name') !!}
             {!! BootForm::select('question_type_id', 'Question Type', $question_types->pluck('title', 'id')) !!}
-            {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups->pluck('title', 'id')) !!}
+            {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups, $question->option_group_id) !!}
             <input type="hidden" name="form_id" value="{{ encrypt($form->id) }}" />
             <button type="submit" class="btn btn-default">Create</button>
           {!! BootForm::close() !!}
