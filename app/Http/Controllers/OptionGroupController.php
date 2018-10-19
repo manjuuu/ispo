@@ -33,8 +33,12 @@ class OptionGroupController extends Controller
      */
     public function create()
     {
-        $group_id = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
-        $groups = Group::whereIn('id', $group_id)->get();
+        if (Auth::user()->admin == 1) {
+            $groups = Group::all();
+        } else {
+            $group_id = UserGroup::where('can_edit', 1)->where('user_id', Auth::id())->select('group_id')->get();
+            $groups = Group::whereIn('id', $group_id)->get();
+        }
         return view('editor.optiongroup.create', compact('groups'));
     }
 
