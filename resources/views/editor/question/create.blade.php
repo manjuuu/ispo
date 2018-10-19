@@ -8,8 +8,12 @@
         <div class="col-sm-4">
           {!! BootForm::open(['url' => action('QuestionController@store')]) !!}
             {!! BootForm::text('title', 'Question Name') !!}
+            {!! BootForm::text('help', 'Help Text shown on Form') !!}
             {!! BootForm::select('question_type_id', 'Question Type', $question_types->pluck('title', 'id')) !!}
             {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups, 0) !!}
+            {!! BootForm::text('sort', 'Sort Order (numeric - optional)',0) !!}
+            {!! BootForm::text('validation', 'Validation Logic String (advanced)') !!}
+            {!! BootForm::radios('update_options', 'Update Option Group with Repsponse', ["false", "true"], "false") !!}
             <input type="hidden" name="form_id" value="{{ encrypt($form->id) }}" />
             <button type="submit" class="btn btn-default">Create</button>
           {!! BootForm::close() !!}

@@ -8,8 +8,12 @@
         <div class="col-sm-4">
           {!! BootForm::open(['url' => action('QuestionController@update', [$question->id])]) !!}
             {!! BootForm::text('title', 'Question Name', $question->title) !!}
+            {!! BootForm::text('help', 'Help Text shown on Form', $question->help) !!}
             {!! BootForm::select('question_type_id', 'Question Type', $question_types->pluck('title', 'id'), $question->question_type_id) !!}
             {!! BootForm::select('option_group_id', 'Option Group (if applicable)', $option_groups, $question->option_group_id) !!}
+            {!! BootForm::text('sort', 'Sort Order (numeric - optional)',$question->sort) !!}
+            {!! BootForm::text('validation', 'Validation Logic String (advanced)',$question->validation) !!}
+            {!! BootForm::radios('update_options', 'Update Option Group with Repsponse', ["false", "true"], $question->update_options) !!}
             <button type="submit" class="btn btn-default">Update</button>
             <input type="hidden" name="_method" value="PUT" />
           {!! BootForm::close() !!}

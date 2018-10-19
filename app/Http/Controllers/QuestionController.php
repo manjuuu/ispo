@@ -56,6 +56,10 @@ class QuestionController extends Controller
         $question->question_type_id = $request->question_type_id;
         $question->option_group_id = $request->option_group_id ?? 0;
         $question->title = $request->title;
+        $question->validation = $request->validation;
+        $question->help = $request->help;
+        $question->update_options = $request->update_options;
+        $question->sort = $request->sort;
         $question->save();
         return redirect()->action('FormController@edit', [decrypt($request->form_id)]);
     }
@@ -100,6 +104,11 @@ class QuestionController extends Controller
         $question->question_type_id = $request->question_type_id;
         $question->option_group_id = $request->option_group_id ?? 0;
         $question->title = $request->title;
+        $question->validation = $request->validation;
+        $question->help = $request->help;
+        $question->update_options = $request->update_options;
+        $question->sort = $request->sort;
+
         $question->save();
         return redirect()->action('FormController@edit', [$question->form_id]);
     }
