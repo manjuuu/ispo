@@ -45,8 +45,7 @@ class GroupController extends Controller
     public function store(Request $request)
     {
     	$validator = Validator::make($request->all(), [
-    		'title' => 'required|unique:groups|string|min:3|max:255',
-    		'user_id' => 'required|string'
+    		'title' => 'required|unique:groups|string|min:3|max:255'
     	]);
     	
     	if ($validator->fails())
@@ -61,7 +60,7 @@ class GroupController extends Controller
     	$group->cost_center = '';
     	$group->save();
     	$usergroup = new UserGroup;
-    	$usergroup->user_id = $request->user_id;
+    	$usergroup->user_id = Auth::user()->id;
     	$usergroup->group_id = $group->id;
     	$usergroup->can_enroll = 0;
     	$usergroup->can_edit = 1;

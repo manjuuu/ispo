@@ -7,9 +7,7 @@
       <div class="row">
         <div class="col-sm-12">
           {!! BootForm::open(['url' => action('GroupController@store')]) !!}
-
             {!! BootForm::text('title', ['html' => 'Group Title <span class="" style="color:red">*</span>']) !!}
-            {!! BootForm::select('user_id', ['html' => 'Users <span class="required" style="color:red">*</span>'], $users->pluck('username', 'id')) !!}
             <button type="submit" class="btn btn-primary">Submit</button>
             <a class="btn btn-default" href="{{ action('GroupController@index') }}">Cancel</a>
           {!! BootForm::close() !!}
