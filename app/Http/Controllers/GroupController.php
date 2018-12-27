@@ -33,7 +33,7 @@ class GroupController extends Controller
     public function create()
     {
     	$users = User::where('admin', '!=', 1)->get();
-    	return view('editor.group.create', compact('users'));
+    	return view('editor.group.create');
     }
 
     /**
