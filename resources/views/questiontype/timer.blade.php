@@ -1,18 +1,17 @@
-  <div class="form-group">
-    <label for="{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
-    <input type="button" d="{{ 'q'.$question->id }}btn" onclick="{{ 'q'.$question->id }}toggle" value="Start" />
+<div class="form-group">
+    <label for="q{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
+    <input type="button" id="{{ 'q'.$question->id }}btn" onclick="{{ 'q'.$question->id }}toggle()" value="Start" />
     <div><input type="text" class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}" readonly></div>
   </div>
 
 
 
-@push('scripts')
+  @push('scripts')
   <script>
-  function {{ 'q'.$question->id }}setupCounter() { 
-    var {{ 'q'.$question->id }}vct=0,
-    {{ 'q'.$question->id }}vintv,
-    {{ 'q'.$question->id }}vdisp = document.getElementById('{{ 'q'.$question->id }}'),
-    {{ 'q'.$question->id }}vbtn = document.getElementById('{{ 'q'.$question->id }}btn');
+  var {{ 'q'.$question->id }}vct=0,
+  {{ 'q'.$question->id }}vintv=false,
+  {{ 'q'.$question->id }}vdisp = document.getElementById('{{ 'q'.$question->id }}'),
+  {{ 'q'.$question->id }}vbtn = document.getElementById('{{ 'q'.$question->id }}btn');   
 
     function {{ 'q'.$question->id }}display_count() {
       {{ 'q'.$question->id }}vdisp.value = {{ 'q'.$question->id }}vct;
@@ -24,20 +23,14 @@
     }
 
     function {{ 'q'.$question->id }}toggle() {
-       if(!{{ 'q'.$question->id }}vintv)
-       {{ 'q'.$question->id }}vintv = setInterval({{ 'q'.$question->id }}count,1000);
-          button.value = "Stop";
+       if(!{{ 'q'.$question->id }}vintv) {
+        {{ 'q'.$question->id }}vintv = setInterval({{ 'q'.$question->id }}count,1000);
+        {{ 'q'.$question->id }}vbtn.value = "Stop"; }
        else {
           clearInterval({{ 'q'.$question->id }}vintv);
           {{ 'q'.$question->id }}vintv = false;
-          button.value = "Start";
+          {{ 'q'.$question->id }}vbtn.value = "Start";
        }
     }
-
-    button.onclick = {{ 'q'.$question->id }}toggle;
-  }
-  window.onload = function () {
-    {{ 'q'.$question->id }}setupCounter();
-  }
   </script>
 @endpush
