@@ -1,43 +1,44 @@
   <div class="form-group">
     <label for="q{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
-    <button type="button" id="start-{{ 'q'.$question->id }}">Start</button>
-    <button type="button" id="stop-{{ 'q'.$question->id }}">Stop</button>
-    <button type="button" id="reset-{{ 'q'.$question->id }}">Reset</button>
+    <input type="button" d="{{ 'q'.$question->id }}btn" onclick="{{ 'q'.$question->id }}toggle" value="Start" />
     <div><input type="text" class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}" readonly></div>
   </div>
 
 
 
-@push('scripts')
+  @push('scripts')
   <script>
+  function {{ 'q'.$question->id }}setupCounter() { 
+    var {{ 'q'.$question->id }}vct=0,
+    {{ 'q'.$question->id }}vintv,
+    {{ 'q'.$question->id }}vdisp = document.getElementById('{{ 'q'.$question->id }}'),
+    {{ 'q'.$question->id }}vbtn = document.getElementById('{{ 'q'.$question->id }}btn');
+
+    function {{ 'q'.$question->id }}display_count() {
+      {{ 'q'.$question->id }}vdisp.value = {{ 'q'.$question->id }}vct;
+    }
+
+    function {{ 'q'.$question->id }}count() {
+      {{ 'q'.$question->id }}vct={{ 'q'.$question->id }}vct+1;
+      {{ 'q'.$question->id }}display_count();
+    }
+
+    function {{ 'q'.$question->id }}toggle() {
+       if(!{{ 'q'.$question->id }}vintv)
+       {{ 'q'.$question->id }}vintv = setInterval({{ 'q'.$question->id }}count,1000);
+          button.value = "Stop";
+       else {
+          clearInterval({{ 'q'.$question->id }}vintv);
+          {{ 'q'.$question->id }}vintv = false;
+          button.value = "Start";
+       }
+    }
+
+    button.onclick = {{ 'q'.$question->id }}toggle;
+  }
   window.onload = function () {
-    var TimerActiveTime = 0;
-    var addTimerActiveTime = document.getElementById('{{ 'q'.$question->id }}')
-    var intvl;
-    var tSt = document.getElementById('start-{{ 'q'.$question->id }}');
-    var tSp = document.getElementById('stop-{{ 'q'.$question->id }}');
-    var tRe = document.getElementById('reset-{{ 'q'.$question->id }}');
-
-    tSt.onclick = function() {
-       clearInterval(intvl);
-       intvl = setInterval(startTimer, 1000);
-    }
-    tSp.onclick = function() {
-         clearInterval(intvl);
-    }
-
-    tRe.onclick = function() {
-      clearInterval(intvl);
-    	TimerActiveTime = 0;
-    	addTimerActiveTime.value = TimerActiveTime;
-    }
-
-    function startTimer () {
-      TimerActiveTime++;
-      addTimerActiveTime.value = TimerActiveTime;
-    }
-
-    intvl = setInterval(startTimer, 1000);
-
-  }</script>
+    {{ 'q'.$question->id }}setupCounter();
+    {{ 'q'.$question->id }}toggle();
+  }
+  </script>
 @endpush

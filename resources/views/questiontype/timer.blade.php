@@ -1,8 +1,6 @@
   <div class="form-group">
     <label for="{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
-    <button type="button" id="start-{{ 'q'.$question->id }}">Start</button>
-    <button type="button" id="stop-{{ 'q'.$question->id }}">Stop</button>
-    <button type="button" id="reset-{{ 'q'.$question->id }}">Reset</button>
+    <input type="button" d="{{ 'q'.$question->id }}btn" onclick="{{ 'q'.$question->id }}toggle" value="Start" />
     <div><input type="text" class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}" readonly></div>
   </div>
 
@@ -10,33 +8,36 @@
 
 @push('scripts')
   <script>
+  function {{ 'q'.$question->id }}setupCounter() { 
+    var {{ 'q'.$question->id }}vct=0,
+    {{ 'q'.$question->id }}vintv,
+    {{ 'q'.$question->id }}vdisp = document.getElementById('{{ 'q'.$question->id }}'),
+    {{ 'q'.$question->id }}vbtn = document.getElementById('{{ 'q'.$question->id }}btn');
+
+    function {{ 'q'.$question->id }}display_count() {
+      {{ 'q'.$question->id }}vdisp.value = {{ 'q'.$question->id }}vct;
+    }
+
+    function {{ 'q'.$question->id }}count() {
+      {{ 'q'.$question->id }}vct={{ 'q'.$question->id }}vct+1;
+      {{ 'q'.$question->id }}display_count();
+    }
+
+    function {{ 'q'.$question->id }}toggle() {
+       if(!{{ 'q'.$question->id }}vintv)
+       {{ 'q'.$question->id }}vintv = setInterval({{ 'q'.$question->id }}count,1000);
+          button.value = "Stop";
+       else {
+          clearInterval({{ 'q'.$question->id }}vintv);
+          {{ 'q'.$question->id }}vintv = false;
+          button.value = "Start";
+       }
+    }
+
+    button.onclick = {{ 'q'.$question->id }}toggle;
+  }
   window.onload = function () {
-    var {{ 'q'.$question->id }}TimerActiveTime = 0;
-    var {{ 'q'.$question->id }}addTimerActiveTime = document.getElementById('{{ 'q'.$question->id }}')
-    var {{ 'q'.$question->id }}intvl;
-    var {{ 'q'.$question->id }}tSt = document.getElementById('start-{{ 'q'.$question->id }}');
-    var {{ 'q'.$question->id }}tSp = document.getElementById('stop-{{ 'q'.$question->id }}');
-    var {{ 'q'.$question->id }}tRe = document.getElementById('reset-{{ 'q'.$question->id }}');
-
-    {{ 'q'.$question->id }}tSt.onclick = function() {
-       clearInterval({{ 'q'.$question->id }}intvl);
-       intvl = setInterval(start{{ 'q'.$question->id }}Timer, 1000);
-    }
-    {{ 'q'.$question->id }}tSp.onclick = function() {
-         clearInterval({{ 'q'.$question->id }}intvl);
-    }
-
-    {{ 'q'.$question->id }}tRe.onclick = function() {
-      clearInterval({{ 'q'.$question->id }}intvl);
-    	{{ 'q'.$question->id }}TimerActiveTime = 0;
-    	{{ 'q'.$question->id }}addTimerActiveTime.value = {{ 'q'.$question->id }}TimerActiveTime;
-    }
-
-    function start{{ 'q'.$question->id }}Timer () {
-      {{ 'q'.$question->id }}TimerActiveTime++;
-      {{ 'q'.$question->id }}addTimerActiveTime.value = {{ 'q'.$question->id }}TimerActiveTime;
-    }
-
-
-  }</script>
+    {{ 'q'.$question->id }}setupCounter();
+  }
+  </script>
 @endpush
