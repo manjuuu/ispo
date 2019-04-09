@@ -44,9 +44,10 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ action('FormController@index') }}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Forms</a></li>
                 <li><a href="{{ action('OptionGroupController@index') }}"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Option Groups</a></li>
+                <li><a href="{{ action('UserController@index') }}"><span class="glyphicon glyphicon-user"></span>Users</a></li>
+                <li><a href="{{ action('GroupController@index') }}"><span class="glyphicon glyphicon-th-list"></span>Groups</a></li>
                     <li role="separator" class="divider"></li>
                 <li><a href="{{ action('ImportController@index') }}"><span class="glyphicon glyphicon-import" aria-hidden="true"></span> Queue Import</a></li>
-
               </ul>
             </li>
             @endif
