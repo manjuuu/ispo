@@ -31,6 +31,9 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::get('reports/{id}', 'ResponseController@responses');
         Route::post('reports/{id}', 'ResponseController@export');
         Route::get('reports', 'ResponseController@forms');
+        Route::resource('users', 'UserController');
+        Route::resource('groups', 'GroupController');
+        Route::get('unassign/{user_id}/{group_id}', 'UserController@unassign');
     });
 });
 
