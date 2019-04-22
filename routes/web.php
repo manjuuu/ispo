@@ -29,7 +29,7 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::get('import', 'ImportController@index');
         Route::post('import', 'ImportController@process');
         Route::get('reports/{id}', 'ResponseController@responses');
-        Route::get('reports/{id}/export/{range}', 'ResponseController@export');
+        Route::post('reports/{id}', 'ResponseController@export');
         Route::get('reports', 'ResponseController@forms');
     });
 });

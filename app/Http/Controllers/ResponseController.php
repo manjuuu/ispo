@@ -27,22 +27,12 @@ class ResponseController extends Controller
         $this->authorize('view', $form);
         return view('reports.responses', compact('responses', 'questions', 'form'));
     }
-    public function export($form_id, $daterange)
+    public function export(Request $request, $form_id)
     {
         $this->authorize('view', Form::find($form_id));
-        if($daterange == 1) {
-            $subDays = 1;
-        } elseif($daterange == 2) {
-            $subDays = 7;
-        } elseif($daterange == 3) {
-            $subDays = 14;
-        } elseif($daterange == 4) {
-            $subDays = 30;
-        } else {
-            $subDays = 1;
-        }
-        $date = Carbon::now()->subDay($subDays);
-        $responses = Response::where('form_id', $form_id)->where('created_at', '>=', $date)->with('user')->get();
+        $dte_f = Carbon::parse($request->dte_from);
+        $dte_t = Carbon::parse($request->dte_to);
+        $responses = Response::where('form_id', $form_id)->where('created_at', '>=', $dte_f)->where('created_at', '<=', $dte_t)->with('user')->get();
         $questions = Question::where('form_id', $form_id)->get()->keyBy('id');
         $headers = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0'
