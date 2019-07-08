@@ -11,6 +11,7 @@ use DB;
 use Auth;
 use App\UserGroup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 class ResponseController extends Controller
 {
@@ -136,6 +137,81 @@ class ResponseController extends Controller
         }
     }
 
+    /**
+     * Display the all resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listdisposes(){
+        $lists=DB::table('responses')->get();
+         return view('response.list',compact('lists'));
+    }
+
+
+    /**
+     * Display the all resource for update.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_dispose(Response $request,$id)
+    {
+        $view=DB::table('responses')->where('id',$id)->get();
+        $logs=DB::table('logs')->get();
+        foreach ($logs as $key ) {
+        $logarray=unserialize($key->log);
+           }
+         return view('response.view',compact('view','logarray'));
+    } 
+
+
+    /**
+     * update all resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_dispose(Response $request,$id){
+        $response=Input::get('respons');
+        DB::table('responses')->where('id',$id)->update(['response_request'=>$response]);
+        $user=Auth::user()->name;
+       /* $details = serialize(array('page'=>'mypage','action'=>'add','added_by'=>$user,'added_data'=>'dats','added_date'=>date('Y-m-d H:i:s')));
+        DB::table('logs')->update(['log'=>$details]);*/
+        return redirect('/list_all_disposes');
+    }  
+
+
+    /**
+     * delet all resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function delete_dispose(Request $request,$id){
+         DB::table('responses')->where('id',$id)->delete();
+         return redirect('/list_all_disposes');
+        }
+
+    /**
+     * Dispaly serialized data in view which is stored in database.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function logs_check(){
+         $logs=DB::table('logs')->get();
+        foreach ($logs as $key ) {
+        $logarray=unserialize($key->log);
+           }
+         return view('response.logs',compact('logarray'));
+
+    }
+
+
+
+    
     /**
      * Display the specified resource.
      *

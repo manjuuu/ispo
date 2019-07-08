@@ -5,7 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Response extends Model
-{
+{  
+
+    protected $fillable = ['response_request'];
     public function form()
     {
         return $this->belongsTo('App\Form');

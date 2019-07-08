@@ -34,6 +34,14 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::resource('users', 'UserController');
         Route::resource('groups', 'GroupController');
         Route::get('unassign/{user_id}/{group_id}', 'UserController@unassign');
+        Route::get('/list_all_disposes','ResponseController@listdisposes');
+        Route::get('/diposes/edit/{id}','ResponseController@edit_dispose');
+        Route::post('/update_dispose/{id}','ResponseController@update_dispose');
+        Route::get('/logs','ResponseController@logs_check');
+        Route::get('/diposes/trash/{id}','ResponseController@delete_dispose');
+        
+        
+
     });
 });
 
