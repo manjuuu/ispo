@@ -55,8 +55,7 @@
               <li><a href="{{ action('QueueController@index') }}">Queues</a></li>
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
               <li><a href="/list_all_disposes">All disposes</a></li>
-
-               <!-- <li><a href="/logs">Serializes data</a></li> -->
+              <!-- <li><a href="/logs">Serializes data</a></li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
