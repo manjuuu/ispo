@@ -6,16 +6,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Find all diposes</div>
         <div class="panel-body">
-
-        	
-
-
-
-
-
-
-
- <table class="table">
+        <table class="table">
     <thead>
       <tr>
         <th>ID</th>

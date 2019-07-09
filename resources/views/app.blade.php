@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/app.css' }}">
     <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/library.css' }}">
     <link rel="shortcut icon" href="favicon.ico">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
       body {
         padding-top: 70px;
@@ -56,6 +59,7 @@
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
               <li><a href="/list_all_disposes">All disposes</a></li>
               <!-- <li><a href="/logs">Serializes data</a></li> -->
+              <li><a href="/form_from_group">Form based on groups</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">

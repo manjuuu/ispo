@@ -39,6 +39,9 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::post('/update_dispose/{id}','ResponseController@update_dispose');
         Route::get('/logs','ResponseController@logs_check');
         Route::get('/diposes/trash/{id}','ResponseController@delete_dispose');
+        Route::get('/form_from_group','GroupController@get_gropuid_for_form');
+        Route::get('getFormsforId/{id}','GroupController@getform');
+        Route::get('getResponseforFormid/{id}','GroupController@getresponse');
         
         
 

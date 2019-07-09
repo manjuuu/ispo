@@ -10,6 +10,8 @@ use App\UserGroup;
 use App\Group;
 use App\User;
 use Auth;
+use DB;
+use Response;
 
 class GroupController extends Controller
 {
@@ -66,5 +68,41 @@ class GroupController extends Controller
     	$usergroup->can_edit = 1;
     	$usergroup->save();
     	return redirect()->action('GroupController@index')->with('success', 'User Group addedd Successfully!');
-    }
+    } 
+
+    /**
+     * Get group id for getting form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function get_gropuid_for_form(Request $request){
+        $getgroupid=Group::all();
+        return view('response.groups',compact('getgroupid'));
+} 
+
+/**
+     * Ajax request for getting form from group id.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+        public function getform(Request $request,$id){
+        $group=DB::table('forms')->where('group_id','=',$id)->get();
+        return response()->json($group);
+
+} 
+
+/**
+     * Ajax request for getting response from form id.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+public function getresponse(Request $request,$id){
+    $response_for_form=DB::table('responses')->where('form_id','=',$id)->get();
+    return Response::json($response_for_form);
+
+}
 }
