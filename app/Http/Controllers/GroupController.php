@@ -77,10 +77,11 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function get_gropuid_for_form(Request $request){
+    public function get_gropuid_for_form(Request $request)
+    {
         $getgroupid=Group::all();
         return view('response.groups',compact('getgroupid'));
-} 
+    } 
 
 /**
      * Ajax request for getting form from group id.
@@ -88,11 +89,25 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-        public function getform(Request $request,$id){
+    public function getform(Request $request,$id)
+    {
         $group=DB::table('forms')->where('group_id','=',$id)->get();
         return response()->json($group);
 
-} 
+    } 
+
+/**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getresponsedate(Request $request,$id)
+    {
+        $responsedate_for_form=DB::table('responses')->where('form_id','=',$id)->get();
+        return Response::json($responsedate_for_form);
+
+    }
 
 /**
      * Ajax request for getting response from form id.
@@ -100,9 +115,48 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-public function getresponse(Request $request,$id){
-    $response_for_form=DB::table('responses')->where('form_id','=',$id)->get();
-    return Response::json($response_for_form);
+    public function getresponse(Request $request,$id)
+    {
+        $response_for_form=DB::table('responses')->where('form_id','=',$id)->get();
+        return Response::json($response_for_form);
 
-}
+    } 
+
+
+    public function getresponsefordate(Request $request,$id)
+{
+     /*$response_for_date=DB::table('responses')
+        ->join('users', function ($join) use ($id) {
+        $join->on('users.id', '=', 'responses.user_id')
+                 ->where('responses.id','=',$id);
+             })
+        ->get();
+         return Response::json($response_for_date);
+*/
+
+    $response_for_date = DB::table('responses')
+    ->join('users', 'users.id', '=', 'responses.user_id')
+    ->join('forms', 'forms.id', '=', 'responses.form_id')
+     ->where('responses.id','=',$id)
+    ->get();
+     return Response::json($response_for_date);
+
+}  
+
+
+/**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getresponseforedit(Request $request,$id)
+    {
+        $logs=DB::table('responses')->where('id','=',$id)->get();
+        foreach ($logs as $key ) {
+        $logarray=unserialize($key->response_request);
+           }
+        return view('response.responses',compact('logarray'));
+    }
+
 }

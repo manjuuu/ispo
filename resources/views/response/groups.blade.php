@@ -5,7 +5,7 @@
 	<div class="panel-heading">All groups</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 
 				<label>Select Group</label>
 				<select class="group_id form-control" id="sel_groupid">
@@ -16,59 +16,69 @@
 				</select>
 			</div>
 
-			<div class="col-md-6" id="form_sel" style="display: none">
+			<div class="col-md-4" id="form_sel" style="display: none">
 				<label>Select Form</label>
 				<select id='sel_form' name='sel_emp' class="myclass form-control">
 					<option value='0'>-- Select Form --</option>
 				</select> 
 
 			</div><!-- 6 -->
+
+
+
+
+			<div class="col-md-4 mypanel" style="display: none">
+				<label>Select Created Date</label>
+				<select id='sel_date' name='sel_emp' class="mydate form-control">
+					<option value='0'>-- Select Date --</option>
+				</select> 
+
+	
+</div><!-- 4 -->
 		</div><!-- r -->
 	</div>
 </div>   
 
-
-<div class="panel panel-info mypanel" style="display: none">
-	<div class="panel-heading">Response for a form</div>
+<div class="panel panel-info" style="width: auto">
+	<div class="panel-heading">All froms and responses</div>
 	<div class="panel-body">
-		<form>
-
-			<label>Response request</label>
-			<input id="respons_id1" type="text" class="form-control">
-			<br>
-			<label>Response attributes</label>
-			<input id="respons_id2" type="text" class="form-control">
-			<br>
-			<label>Created date</label>
-			<input id="respons_id3" type="text" class="form-control">
-			<br>
-
-			<input type="submit" name="" class="btn btn-success" value="update">
-
-		</form>
-	</div>
+<table class="table table-bordered" id="table_authorId">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Form</th>
+        <th>Reponse request</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="table_data">
+	</tbody>
+  </table>
+  </div> 
 </div>
 
-<script>
-	$(document).ready(function() {
-		$('#sel_groupid').change(function(e){
-			$('#form_sel').show();
-			var id = $(this).val();
-         //alert(id);
-         // AJAX request 
-         e.preventDefault();
-         $.ajax({
-         	url: 'getFormsforId/'+id,
-         	type: 'get',
-         	success:function (data) {
-         		if(data){
-         			$('#sel_form').empty();
-         			$.each(data, function(key, value){
 
-         				$('#sel_form').append('<option value="'+ value.id +'" id="myid">' + value.title + '</option>');
-						});
-         		}else {
-         			$('#sel_form').empty();
+
+
+<script>
+$(document).ready(function() {
+$('#sel_groupid').change(function(e){
+$('#form_sel').show();
+var id = $(this).val();
+ //alert(id);
+ // AJAX request 
+ e.preventDefault();
+ $.ajax({
+ url: 'getFormsforId/'+id,
+ type: 'get',
+  success:function (data) {
+   if(data){
+   $('#sel_form').empty();
+   $.each(data, function(key, value){
+	$('#sel_form').append('<option value="'+ value.id +'" id="myid">' + value.title + '</option>');
+	});
+    }else{
+     $('#sel_form').empty();
          		}
          	}
          });
@@ -76,38 +86,50 @@
 
 
 		
-	$('.myclass').change(function(e){
-	$('#form_sel').show();
-	$('.mypanel ').show();
-	var id=$(this).val();
+$('.myclass').change(function(e){
+$('#form_sel').show();
+$('.mypanel ').show();
+var id=$(this).val();
 //alert(id);
 e.preventDefault();
 $.ajax({
-	url: 'getResponseforFormid/'+id,
+	url: 'getDateforFormid/'+id,
 	type: 'get',
 	success:function (data) {
-		if(data){
-			$('#respons_id1').val("");
-			$('#respons_id2').val("");
-			$('#respons_id3').val("");
-			$.each(data, function(key, value){
-				$('#respons_id1').val(value.response_request);
-				$('#respons_id2').val(value.response_attributes);
-				$('#respons_id3').val(value.created_at);
-
-			});
-		} else {
-			$('#respons_id1').val("");
-			$('#respons_id2').val("");
-			$('#respons_id3').val("");
-		}
-
+	if(data){
+    $('#sel_date').empty();
+     $.each(data, function(key, value){
+	$('#sel_date').append('<option value="'+ value.id +'" id="myid">' + value.created_at + '</option>');
+	});
+      }else{
+     $('#sel_date').empty();
+      }
 	}
 });
+});  
+
+
+	$('.mydate').change(function(e){
+	var id=$(this).val();
+	e.preventDefault();
+	$.ajax({
+	url: 'getResponsefordate/'+id,
+	type: 'get',
+	success:function (data) {
+	if(data){
+	$('#table_data').empty();
+	$.each(data, function(key, value){
+$('#table_data').append("<tr><td>"+value.username+"</td><td>"+value.title+"</td> <td>"+value.response_request+"</td> <td><a href='/edit_responses/"+value.id+"' class='btn btn-primary'>edit</a></td> </tr>");
+
+});
+   }else{
+      $('#table_data').empty();
+    }
+}
+});
 });
 
-	});
-
+});
 
 
 

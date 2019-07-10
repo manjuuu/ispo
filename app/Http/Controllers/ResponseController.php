@@ -202,8 +202,9 @@ class ResponseController extends Controller
      */
     public function logs_check(){
          $logs=DB::table('logs')->get();
+         
         foreach ($logs as $key ) {
-        $logarray=unserialize($key->log);
+       return $logarray=unserialize($key->log);
            }
          return view('response.logs',compact('logarray'));
 
