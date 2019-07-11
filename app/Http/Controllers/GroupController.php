@@ -12,6 +12,8 @@ use App\User;
 use Auth;
 use DB;
 use Response;
+use Illuminate\Support\Facades\Input;
+
 
 class GroupController extends Controller
 {
@@ -153,10 +155,27 @@ class GroupController extends Controller
     public function getresponseforedit(Request $request,$id)
     {
         $logs=DB::table('responses')->where('id','=',$id)->get();
+      
+        return view('response.responses',compact('logs'));
+    }   
+
+
+     /*public function getresponseforedit(Request $request,$id)
+    {
+        $logs=DB::table('responses')->where('id','=',$id)->get();
         foreach ($logs as $key ) {
         $logarray=unserialize($key->response_request);
            }
-        return view('response.responses',compact('logarray'));
+        return view('response.responses',compact('logarray','logs'));
+    } */
+
+    public function updateresponse(Request $request,$id)
+    {
+
+
+        $get_response=Input::get('myresponse');
+         DB::table('responses')->where('id',$id)->update(['response_request'=>$get_response]);
+         return redirect('/form_from_group');
     }
 
 }

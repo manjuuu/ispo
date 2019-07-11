@@ -42,11 +42,10 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::get('/form_from_group','GroupController@get_gropuid_for_form');
         Route::get('getFormsforId/{id}','GroupController@getform');
         Route::get('getResponseforFormid/{id}','GroupController@getresponse');
-
         Route::get('getDateforFormid/{id}','GroupController@getresponsedate');
         Route::get('getResponsefordate/{id}','GroupController@getresponsefordate');
-
         Route::get('/edit_responses/{id}','GroupController@getresponseforedit');
+        Route::post('/updateresponse/{id}','GroupController@updateresponse');
         
         
         

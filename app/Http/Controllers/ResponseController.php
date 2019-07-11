@@ -174,6 +174,7 @@ class ResponseController extends Controller
      */
     public function update_dispose(Response $request,$id){
         $response=Input::get('respons');
+        return $response;
         DB::table('responses')->where('id',$id)->update(['response_request'=>$response]);
         $user=Auth::user()->name;
        /* $details = serialize(array('page'=>'mypage','action'=>'add','added_by'=>$user,'added_data'=>'dats','added_date'=>date('Y-m-d H:i:s')));
@@ -202,9 +203,10 @@ class ResponseController extends Controller
      */
     public function logs_check(){
          $logs=DB::table('logs')->get();
+         return $logs;
          
         foreach ($logs as $key ) {
-       return $logarray=unserialize($key->log);
+        $logarray=unserialize($key->log);
            }
          return view('response.logs',compact('logarray'));
 

@@ -58,8 +58,10 @@
               <li><a href="{{ action('QueueController@index') }}">Queues</a></li>
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
               <li><a href="/list_all_disposes">All disposes</a></li>
-              <li><a href="/logs">Serializes data</a></li>
+              <!-- <li><a href="/logs">Serializes data</a></li> -->
+              @if(Auth::user()->admin == 1 or Auth::user()->groups()->where('can_edit', 1)->exists())
               <li><a href="/form_from_group">Form based on groups</a></li>
+              @endif
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -98,6 +100,9 @@
           {{ session('message')['message'] }}
       </div>
       @endif
+
+
+       
 
           @yield('content')
         </div>
