@@ -21,7 +21,7 @@ class GroupController extends Controller
      * Display a listing of the groups.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
     	$group_ids = UserGroup::where('can_edit', 1)->select('group_id')->get();
@@ -85,7 +85,7 @@ class GroupController extends Controller
         return view('response.groups',compact('getgroupid'));
     } 
 
-/**
+    /**
      * Ajax request for getting form from group id.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -98,7 +98,7 @@ class GroupController extends Controller
 
     } 
 
-/**
+    /**
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -111,7 +111,7 @@ class GroupController extends Controller
 
     }
 
-/**
+    /**
      * Ajax request for getting response from form id.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -124,9 +124,14 @@ class GroupController extends Controller
 
     } 
 
-
+    /**
+     *  getting response from form id and display in form table.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getresponsefordate(Request $request,$id)
-{
+    {
      /*$response_for_date=DB::table('responses')
         ->join('users', function ($join) use ($id) {
         $join->on('users.id', '=', 'responses.user_id')
@@ -134,30 +139,78 @@ class GroupController extends Controller
              })
         ->get();
          return Response::json($response_for_date);
-*/
-
+    */
     $response_for_date = DB::table('responses')
     ->join('users', 'users.id', '=', 'responses.user_id')
     ->join('forms', 'forms.id', '=', 'responses.form_id')
      ->where('responses.id','=',$id)
+     ->select(
+                  'responses.id',
+                  'responses.response_request',
+                  'responses.form_id',
+                  'responses.user_id',
+                  'users.username',
+                  'forms.title'
+          )
     ->get();
      return Response::json($response_for_date);
 
-}  
+    }  
 
 
-/**
-     *
+    /**
+     *get json data from table and display in form
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
 
-    public function getresponseforedit(Request $request,$id)
+    public function getresponseforedit(Request $request,$id,$form_id,$user_id)
     {
-        $logs=DB::table('responses')->where('id','=',$id)->get();
-      
-        return view('response.responses',compact('logs'));
-    }   
+
+        $join_logs=DB::table('responses')->where([
+       'responses.id' => $id,
+       'responses.form_id' => $form_id,
+       'responses.user_id' => $user_id])->join('questions', 'questions.form_id', '=', 'responses.form_id')->get();
+
+        $loging=DB::table('responses')->where([
+       'id' => $id,
+       'form_id' => $form_id,
+       'user_id' => $user_id])->get();
+        $keys="";
+        $str_char='';
+        
+        foreach ($loging as $key ) {
+        $logg=$key->response_request;
+             $keys = array_keys(json_decode($logg, true));
+
+             foreach($keys as $mykey){
+            $str_char = ltrim($mykey, 'q');
+            
+     
+   }
+            
+        
+    }
+    $query=DB::table('questions')->where('id',$str_char)->get();
+    return $query;
+    //var_dump($keys);
+   //var_dump($str_char);
+
+       
+
+
+
+        $logs=DB::table('responses')->where([
+       'id' => $id,
+       'form_id' => $form_id,
+       'user_id' => $user_id])->get();
+        foreach ($logs as $key ) {
+        $log=json_decode($key->response_request);
+        //$log=str_replace(array('[', ']'), '', htmlspecialchars(json_encode($mylogs), ENT_NOQUOTES));
+     }
+        return view('response.responses',compact('logs','log','join_logs'));
+    }    
+
 
 
      /*public function getresponseforedit(Request $request,$id)
@@ -171,11 +224,24 @@ class GroupController extends Controller
 
     public function updateresponse(Request $request,$id)
     {
+       
+     DB::table('responses')->where('id',$id)->update(['response_request'=>json_encode(request()->except(['_token']))]);
+    return redirect('/form_from_group');
+    }  
 
 
-        $get_response=Input::get('myresponse');
-         DB::table('responses')->where('id',$id)->update(['response_request'=>$get_response]);
-         return redirect('/form_from_group');
+    public function exportAssignedID()
+    {
+        Excel::create('NewHireEmployeeRoster', function($excel) {
+        $excel->sheet('NewHireEmployeeRoster', function($sheet) {
+        $query = Employee::ApplyACL()->select(['name','client','site','manager','hire_dte'])->where('hire_dte', '>', Carbon::now()->subDay(30))->get();
+        $sheet->fromModel($query);
+        $sheet->row(1, function($row) {
+        $row->setBackground('#fd8924');
+        $row->setFontColor('#ffffff');
+        });
+        });
+        })->export('xlsx');
     }
 
-}
+    }

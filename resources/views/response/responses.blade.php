@@ -10,21 +10,24 @@
 <div class="panel panel-info">
     <div class="panel-heading">Edit the response request</div>
     <div class="panel-body">
-        @foreach($logs as $values)
-         <form action="/updateresponse/<?php echo $values->id ?>" method="post"> 
-            
-            {{ csrf_field() }}
         
+@foreach($logs as $values)
+ <form action="/updateresponse/<?php echo $values->id ?>" method="post"> 
+        @foreach($log as $key=>$value)
     
+            {{ csrf_field() }}
     <div class="form-group">
-    <label for="email">responses:</label>
-    
-    <textarea class="form-control" name="myresponse" style="width: 100%;height: 200px">{{$values->response_request}}</textarea>
+        <label>{{$key}}:@foreach($join_logs as $join_log) {{$join_log->title}} @endforeach</label>
+   
+    <input type="text" name="<?php echo $key ?>" value="<?php echo $value ?>" class="form-control">
     </div>
-    
- <input type="submit" name="" class="btn btn-success">
+    @endforeach 
+    <input type="submit" name="" class="btn btn-success">
 </form>
 
 @endforeach
+
+
+
 </div>
 @endsection

@@ -13,7 +13,7 @@
 
 Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
     Route::get('/', 'HomeController@index')->name('forms');
-    Route::get('response', 'ResponseController@index');
+    //Route::get('response', 'ResponseController@index');
     Route::post('response', 'ResponseController@store');
     Route::get('task/skip/{id}', 'TaskController@skip');
     Route::get('task/{id}', 'TaskController@show');
@@ -31,8 +31,8 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::get('reports/{id}', 'ResponseController@responses');
         Route::post('reports/{id}', 'ResponseController@export');
         Route::get('reports', 'ResponseController@forms');
-        Route::resource('users', 'UserController');
-        Route::resource('groups', 'GroupController');
+        Route::get('reporting', 'ResponseController@forming');
+        
         Route::get('unassign/{user_id}/{group_id}', 'UserController@unassign');
         Route::get('/list_all_disposes','ResponseController@listdisposes');
         Route::get('/diposes/edit/{id}','ResponseController@edit_dispose');
@@ -44,17 +44,24 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         Route::get('getResponseforFormid/{id}','GroupController@getresponse');
         Route::get('getDateforFormid/{id}','GroupController@getresponsedate');
         Route::get('getResponsefordate/{id}','GroupController@getresponsefordate');
-        Route::get('/edit_responses/{id}','GroupController@getresponseforedit');
+        //Route::get('/edit_responses/{id}','GroupController@getresponseforedit');
+        Route::get('/edit_responses/{id}/{form_id}/{user_id}','GroupController@getresponseforedit');
         Route::post('/updateresponse/{id}','GroupController@updateresponse');
+        Route::get('/exporting', 'GroupController@exportAssignedID');
+        Route::get('admin_access','UserController@admin_access');
+        Route::post('/get_admin_access_users','UserController@get_users');
         
-        
+        Route::get('/email', 'GroupController@sendEmail');
         
 
     });
 });
 
-Route::get('login', 'AuthController@index')->name('login');
+//Route::get('login', 'AuthController@index')->name('login');
 Route::post('login', 'AuthController@login');
 Route::get('logout', 'AuthController@logout');
 Route::get('ping', 'PingController@ping');
+
+Route::get('deleteauto', 'JobController@autodelete');
+
 

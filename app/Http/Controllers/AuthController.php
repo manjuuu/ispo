@@ -13,7 +13,23 @@ class AuthController extends Controller
     {
         return view('login');
     }
+
+
+
     public function login(Request $request)
+    {
+        
+        
+            $user = User::where('username', $request->username)->first();
+            Auth::login($user);
+            return redirect()->intended()->with(['message' => ['time' => 2000, 'type' => 'success', 'message' =>'You are logged in.']]);
+        
+    }
+
+
+
+
+    /*public function login(Request $request)
     {
         $loggedIn = LDAP::authenticate($request->username, $request->password, env('LDAP_DOMAIN'), env('LDAP_IPADDRESS'));
         if ($loggedIn) {
@@ -23,7 +39,7 @@ class AuthController extends Controller
         } else {
             return redirect('login')->with(['message' => ['time' => 5000, 'type' => 'error', 'message' =>'Username or password incorrect.']]);
         }
-    }
+    }*/
     public function logout()
     {
         Auth::logout();

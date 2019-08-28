@@ -7,6 +7,7 @@ use League\Csv\Reader;
 use App\Task;
 use Auth;
 use App\Queue;
+use App\UserQueue;
 use App\ApiToken;
 
 class ImportController extends Controller
@@ -15,9 +16,11 @@ class ImportController extends Controller
     {
         if (Auth::user()->admin == 1) {
             $queues = Queue::with('group')->get();
+
         } else {
             $groups = UserQueue::where('user_id', Auth::id())->select('queue_id')->get();
-            $queues = Queue::whereIn('queue_id', $groups)->with('group')->get();
+            $queues = Queue::whereIn('id', $groups)->with('group')->get();
+            
         }
         return view('import.index', compact('queues'));
     }

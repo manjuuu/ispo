@@ -18,10 +18,12 @@ class QueueController extends Controller
     public function index()
     {
         if (Auth::user()->admin == 1) {
-            $queues = Queue::with('group')->paginate(6);
+        $queues = Queue::with('group')->paginate(6);
+
         } else {
             $groups = UserQueue::where('user_id', Auth::id())->select('queue_id')->get();
-            $queues = Queue::whereIn('queue_id', $groups)->with('group')->paginate(6);
+            $queues = Queue::whereIn('id', $groups)->with('group')->paginate(6);
+
         }
         return view('queue.index', compact('queues'));
     }
@@ -55,6 +57,7 @@ class QueueController extends Controller
      */
     public function show(Request $request, $id)
     {
+        
         $request->session()->reflash();
 
         $tasks = Task::with(['queue'])->where('queue_id', $id)->has('locks', '<', 1)->has('response', '<', 1)->orderBy('created_at', 'asc')->select(['id', 'queue_id'])->first();

@@ -111,12 +111,17 @@ class ResponseController extends Controller
      */
     public function store(Request $request)
     {
+
         $form_id = decrypt($request->_form);
         $response = new Response;
         $response->user_id = Auth::id();
         $response->form_id = $form_id;
         $response->response_request = $request->except(['_form','_token','_savestate']);
         $response->response_attributes = session('passThough');
+        /*foreach($request->except(['_form','_token','_savestate']) as $k => $v) {
+        $question_id = intval(preg_replace("/[^0-9]/", "", $k));
+            $response->question_id=$question_id;
+         }*/
         $response->save();
 
         $update = Question::where('form_id', $form_id)->where('update_options', true)->select(['id', 'option_group_id'])->get()->keyBy('id');
@@ -201,14 +206,27 @@ class ResponseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function logs_check(){
+    /*public function logs_check()
+    {
          $logs=DB::table('logs')->get();
-         return $logs;
-         
-        foreach ($logs as $key ) {
+         foreach ($logs as $key ) {
         $logarray=unserialize($key->log);
            }
-         return view('response.logs',compact('logarray'));
+         return view('response.logs',compact('logarray','logs'));
+
+    }  
+*/
+
+    public function logs_check()
+    {
+        $logs=DB::table('logs')->get();
+        //return json_encode($logs);
+        foreach ($logs as $key ) {
+        $mylogs=json_decode($key->log);
+        $log=str_replace(array('[', ']'), '', htmlspecialchars(json_encode($mylogs), ENT_NOQUOTES));
+     
+    }
+    return view('response.logs',compact('logs','log'));
 
     }
 
