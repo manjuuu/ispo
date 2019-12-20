@@ -1,0 +1,60 @@
+  SELECT (((('<?xml version="1.0" encoding="UTF-8" ?><agentList>'::text || '<changedAgent>'::text) || string_agg(XMLFOREST(v_existing_agents.agent_id AS id, 999999001 AS mu,
+        CASE
+            WHEN v_agentacd.acd_export_list IS NOT NULL THEN XMLFOREST(XMLFOREST(date_part('day'::text, t_mss_attrition.attrition_date) AS day, date_part('month'::text, t_mss_attrition.attrition_date) AS month, date_part('year'::text, t_mss_attrition.attrition_date) AS year) AS "acdStartDate", v_agentacd.acd_export_list AS acd)
+            ELSE NULL::xml
+        END AS "acdList", 'N' AS "forceWork", ''::text AS "tourGroup", XMLFOREST(date_part('day'::text, t_mss_attrition.attrition_date) AS day, date_part('month'::text, t_mss_attrition.attrition_date) AS month, date_part('year'::text, t_mss_attrition.attrition_date) AS year, 29 AS weeks) AS "availListDateRange", XMLELEMENT(NAME availability, XMLATTRIBUTES('All' AS day), 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN') AS "availabilityList", XMLFOREST(XMLFOREST(date_part('day'::text, t_mss_attrition.attrition_date) AS day, date_part('month'::text, t_mss_attrition.attrition_date) AS month, date_part('year'::text, t_mss_attrition.attrition_date) AS year) AS "skillStartDate", '* TERMINATION'::text AS "baseScheduleCode", XMLFOREST('TERM' AS "skillName", 1 AS level) AS skill) AS "skillSet", XMLFOREST(XMLFOREST('_SYSTEM MESSAGE' AS description, XMLFOREST(date_part('day'::text, now()::date) AS day, date_part('month'::text, now()::date) AS month, date_part('year'::text, now()::date) AS year) AS "adgStartDate", upper('Agent termed by AATP'::text) AS value) AS "group", XMLFOREST('_SUPERVISOR' AS description, XMLFOREST(date_part('day'::text, t_mss_attrition.attrition_date) AS day, date_part('month'::text, t_mss_attrition.attrition_date) AS month, date_part('year'::text, t_mss_attrition.attrition_date) AS year) AS "adgStartDate", 'TERM' AS value) AS "group", XMLFOREST('_EMPLOYMENT END DATE' AS description, XMLFOREST(date_part('day'::text, t_mss_attrition.attrition_date) AS day, date_part('month'::text, t_mss_attrition.attrition_date) AS month, date_part('year'::text, t_mss_attrition.attrition_date) AS year) AS "adgStartDate", to_char(t_mss_attrition.attrition_date::timestamp with time zone, 'YYYYMMDD'::text) AS value) AS "group") AS "agentData")::text, '</changedAgent><changedAgent>'::text)) || '</changedAgent>'::text) || (('<changedAgent>'::text || string_agg(XMLFOREST(v_existing_agents.agent_id AS id, XMLFOREST('' AS "default") AS "availListDateRange", XMLELEMENT(NAME availability, XMLATTRIBUTES('All' AS day), 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN') AS "availabilityList")::text, '</changedAgent><changedAgent>'::text)) || '</changedAgent>'::text)) || '</agentList>'::text AS import_xmls,
+    schema_name.iex_server,
+    schema_name.customer_number,
+    schema_name.schema_name
+   FROM app_nice_wfm.t_mss_attrition
+     JOIN app_nice_wfm.v_existing_agents ON v_existing_agents.agent_id::text = t_mss_attrition.win_id
+     LEFT JOIN ( SELECT v_agentacd_1.agent_,
+            v_agentacd_1.mu_src_type_id,
+            string_agg(XMLFOREST(v_agentacd_1.acd_ AS "acdID", ''::text AS logon)::text, ''::text)::xml AS acd_export_list
+           FROM app_nice_wfm.v_agentacd v_agentacd_1
+          GROUP BY v_agentacd_1.agent_, v_agentacd_1.mu_src_type_id) v_agentacd ON v_agentacd.agent_ = v_existing_agents.agent_id AND v_existing_agents.mu_src_type_id = v_agentacd.mu_src_type_id
+     JOIN source_mgmt_xrx_iex6.schema_name ON schema_name.mu_src_type_id = v_existing_agents.mu_src_type_id
+     LEFT JOIN app_nice_wfm.v_termed_agents ON v_termed_agents.agent_id::text = t_mss_attrition.win_id
+  WHERE t_mss_attrition.attrition_date >= (now()::date - 30) AND t_mss_attrition.attrition_date <= (now()::date - 4) AND v_termed_agents.agent_id IS NULL AND schema_name.schema_name = 'sandy_2'::text
+  GROUP BY schema_name.iex_server, schema_name.customer_number, schema_name.schema_name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //testing query for test and show and explain below
+
+  SELECT * FROM app_nice_wfm.t_mss_attrition
+     JOIN app_nice_wfm.v_existing_agents ON v_existing_agents.agent_id::text = t_mss_attrition.win_id
+     LEFT JOIN ( SELECT v_agentacd_1.agent_,
+            v_agentacd_1.mu_src_type_id,
+            string_agg(XMLFOREST(v_agentacd_1.acd_ AS "acdID", ''::text AS logon)::text, ''::text)::xml AS acd_export_list
+           FROM app_nice_wfm.v_agentacd v_agentacd_1
+          GROUP BY v_agentacd_1.agent_, v_agentacd_1.mu_src_type_id) v_agentacd ON v_agentacd.agent_ = v_existing_agents.agent_id AND v_existing_agents.mu_src_type_id = v_agentacd.mu_src_type_id
+     JOIN source_mgmt_xrx_iex6.schema_name ON schema_name.mu_src_type_id = v_existing_agents.mu_src_type_id
+     LEFT JOIN app_nice_wfm.v_termed_agents ON v_termed_agents.agent_id::text = t_mss_attrition.win_id
+  WHERE t_mss_attrition.attrition_date >= (now()::date - 30) AND t_mss_attrition.attrition_date <= (now()::date - 4) AND v_termed_agents.agent_id IS NULL AND schema_name.schema_name = 'sandy_2'::text;

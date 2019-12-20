@@ -11,6 +11,11 @@
             <div class="form-group"><label for="" class="control-label">Form Availablity</label><div>
               <div class="radio"><label><input name="active" type="radio" value="1" @if($form->active == 1) checked @endif>Active</label></div>
               <div class="radio"><label><input name="active" type="radio" value="0" @if($form->active == 0) checked @endif>Disable</label></div>
+
+
+              <div class="radio"><label><input name="mail" type="radio" value="1" @if($form->mail == 1) checked @endif>Mail Active</label></div>
+
+               <div class="radio"><label><input name="mail" type="radio" value="0" @if($form->mail == 0) checked @endif>Mail Disable</label></div>
             </div>
             </div>
             <div class="form-group "><label for="title" class="control-label">Group</label><div>{{ $form->group->title }}</div></div>

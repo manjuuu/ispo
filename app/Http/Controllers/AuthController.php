@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Conduent\LDAP;
+use Session;
+
 
 class AuthController extends Controller
 {
@@ -43,6 +45,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('login');
+        Session::flush();
+        return redirect('login')->with('message_logout', 'You just logged out.');;
     }
 }

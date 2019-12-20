@@ -32,6 +32,14 @@ class HomeController extends Controller
                     ->join('user_groups', 'groups.id', 'user_groups.group_id')
                     ->where('user_groups.user_id', '=', Auth::id())
                     ->get();
+
+      
+
+         /*return $test_groupby = DB::table('test_users')
+                   ->select(DB::raw('count(*) as aggergate,gender'))
+                   ->groupBy('gender')
+                   ->get();*/
+
         return view('response.index', compact('forms', 'today', 'groups'));
     }
 }

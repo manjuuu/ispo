@@ -56,6 +56,7 @@
           <tr>
             <th>Form</th>
             <th>Actions</th>
+            <th>Mail</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +67,7 @@
                 <a class="btn btn-sm btn-default" href="{{ action('ResponseController@create', [$form->id]) }}">Open Form</a>
                 <a class="btn btn-sm btn-default" href="JavaScript:newPopup('{{ action('ResponseController@create', [$form->id]) }}');">Open a Popup</a>
           </td>
+          <td>{{$form->mail}}</td>
           </tr>
         @endforeach
         </tbody>

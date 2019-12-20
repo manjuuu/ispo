@@ -117,7 +117,7 @@ class ResponseController extends Controller
         $response->user_id = Auth::id();
         $response->form_id = $form_id;
         $response->response_request = $request->except(['_form','_token','_savestate']);
-        $response->response_attributes = session('passThough');
+       $response->response_attributes = session('passThough');
         /*foreach($request->except(['_form','_token','_savestate']) as $k => $v) {
         $question_id = intval(preg_replace("/[^0-9]/", "", $k));
             $response->question_id=$question_id;
@@ -179,7 +179,7 @@ class ResponseController extends Controller
      */
     public function update_dispose(Response $request,$id){
         $response=Input::get('respons');
-        return $response;
+       // return $response;
         DB::table('responses')->where('id',$id)->update(['response_request'=>$response]);
         $user=Auth::user()->name;
        /* $details = serialize(array('page'=>'mypage','action'=>'add','added_by'=>$user,'added_data'=>'dats','added_date'=>date('Y-m-d H:i:s')));

@@ -9,8 +9,18 @@
     <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/app.css' }}">
     <link rel="stylesheet" href="/{{ env('APP_FOLDER').'css/library.css' }}">
     <link rel="shortcut icon" href="favicon.ico">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+
+
+<script type="text/javascript" src="{{ URL::asset('js/jquery-1.12.4.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/jquery.min.js') }}"></script>
+<link rel="stylesheet" href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}" />
+<script type="text/javascript" src="{{ URL::asset('js/jquery-3.3.1.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/dataTables.bootstrap4.min.js') }}"></script>
+    
+
+
      <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
       body {
@@ -53,7 +63,24 @@
                 <li><a href="{{ action('ImportController@index') }}"><span class="glyphicon glyphicon-import" aria-hidden="true"></span> Queue Import</a></li>
               </ul>
             </li>
-            @endif
+            @endif 
+
+
+
+
+               <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-arrow" aria-hidden="true"></span> Form <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a class="btn btn-success"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Email</a></li>
+                
+              </ul>
+            </li>
+
+
+
+
+
+
               <li><a href="/{{ env('APP_FOLDER') }}">Forms</a></li>
               <li><a href="{{ action('QueueController@index') }}">Queues</a></li>
               <li><a href="{{ action('ResponseController@forms') }}">Reports</a></li>
@@ -61,10 +88,10 @@
               <li><a href="/admin_access">Admin access for users</a></li>
               @endif
               <li><a href="/list_all_disposes">All disposes</a></li>
-              <li><a href="/email">Serializes data</a></li>
+              <li><a href="/email">Serializes data</a></li> -->
               @if(Auth::user()->admin == 1 or Auth::user()->groups()->where('can_edit', 1)->exists())
-              <li><a href="/form_from_group">Form based on groups</a></li>
-              @endif -->
+              <li><a href="/form_from_group">Response Edit</a></li>
+              @endif
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -127,6 +154,14 @@
         setTimeout(keepAlive(),300000);
         keepAlive();
         </script>
+
+        <script>
+
+    $(document).ready(function() {
+      $.noConflict();
+        $('#batchess').DataTable();
+    } );
+  </script>
 
       @stack('scripts')
 

@@ -10,7 +10,7 @@
 				<label>Select Group</label>
 				<select class="group_id form-control" id="sel_groupid">
 					<option value='0'>-- Select Form Group --</option>
-					@foreach($getgroupid as $value)
+					@foreach($user_group as $value)
 					<option value="<?php echo $value->id ?>">{{$value->title}}</option>
 					@endforeach
 				</select>
@@ -54,7 +54,9 @@
 <script>
 $(document).ready(function()
  {
-		$('#sel_groupid').change(function(e){
+		$('#sel_groupid').change(function(e)
+
+		{
 		$('#form_sel').show();
 		var id = $(this).val();
 		 //alert(id);
@@ -77,8 +79,7 @@ $(document).ready(function()
      });   
 
 
-		
-$('.myclass').change(function(e)
+$(document).on('change, click', '.myclass', function(e)	
 {
 	$('#form_sel').show();
 	$('.mypanel ').show();
@@ -102,7 +103,7 @@ $('.myclass').change(function(e)
 });  
 
 
-	$('.mydate').change(function(e)
+	$(document).on('change, click', '.mydate', function(e)
 	{
 		var id=$(this).val();
 		e.preventDefault();
@@ -126,10 +127,6 @@ $('.myclass').change(function(e)
 });
 
 });
-
-
-
-
 </script>
 
 @endsection

@@ -93,6 +93,7 @@ class FormController extends Controller
         $form = Form::find($id);
         $form->title = $request->title;
         $form->active = $request->active;
+        $form->mail=$request->mail;
         $form->save();
         return redirect()->action('FormController@edit', [$form->id]);
     }

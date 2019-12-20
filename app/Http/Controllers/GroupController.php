@@ -13,6 +13,7 @@ use Auth;
 use DB;
 use Response;
 use Illuminate\Support\Facades\Input;
+use Mail;
 
 
 class GroupController extends Controller
@@ -80,9 +81,13 @@ class GroupController extends Controller
      */
 
     public function get_gropuid_for_form(Request $request)
-    {
+    {  
+
+        $user_id=Auth::id();
+        $user_group=DB::table('user_groups')->where('user_id','=',$user_id)->join('groups','user_groups.group_id','=','groups.id')->get();
+        //return $user_group;
         $getgroupid=Group::all();
-        return view('response.groups',compact('getgroupid'));
+        return view('response.groups',compact('getgroupid','user_group'));
     } 
 
     /**
@@ -165,8 +170,10 @@ class GroupController extends Controller
      */
 
     public function getresponseforedit(Request $request,$id,$form_id,$user_id)
-    {
+    { 
 
+
+        $qll_questions=DB::table('questions')->get();
         $join_logs=DB::table('responses')->where([
        'responses.id' => $id,
        'responses.form_id' => $form_id,
@@ -181,26 +188,23 @@ class GroupController extends Controller
         
         foreach ($loging as $key ) {
         $logg=$key->response_request;
-             $keys = array_keys(json_decode($logg, true));
+          $keys = array_keys(json_decode($logg, true));
+             /*$just=implode(',', $keys);
+             return $str_char = ltrim($just, 'q');*/
+
 
              foreach($keys as $mykey){
             $str_char = ltrim($mykey, 'q');
             
      
    }
+
             
         
     }
     $query=DB::table('questions')->where('id',$str_char)->get();
-    return $query;
-    //var_dump($keys);
-   //var_dump($str_char);
-
-       
-
-
-
-        $logs=DB::table('responses')->where([
+    
+    $logs=DB::table('responses')->where([
        'id' => $id,
        'form_id' => $form_id,
        'user_id' => $user_id])->get();
@@ -208,7 +212,7 @@ class GroupController extends Controller
         $log=json_decode($key->response_request);
         //$log=str_replace(array('[', ']'), '', htmlspecialchars(json_encode($mylogs), ENT_NOQUOTES));
      }
-        return view('response.responses',compact('logs','log','join_logs'));
+        return view('response.responses',compact('logs','log','join_logs','qll_questions'));
     }    
 
 
@@ -242,6 +246,19 @@ class GroupController extends Controller
         });
         });
         })->export('xlsx');
-    }
+    }    
+
+
+    public function basic_email() {
+      $data = array('name'=>"Virat Gandhi");
+   
+      Mail::send(['text'=>'mail'], $data, function($message) {
+         $message->to('manju.dn@conduent.com', 'Tutorials Point')->subject
+            ('Laravel Basic Testing Mail');
+         $message->from('manju.dn@conduent.com','Virat Gandhi');
+      });
+      echo "Basic Email Sent. Check your inbox.";
+   }
+
 
     }
