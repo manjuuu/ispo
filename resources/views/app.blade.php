@@ -92,6 +92,7 @@
               @if(Auth::user()->admin == 1 or Auth::user()->groups()->where('can_edit', 1)->exists())
               <li><a href="/form_from_group">Response Edit</a></li>
               @endif
+              <li><a href="/users_exception">Exception Check</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -128,6 +129,13 @@
       @if(session('message'))
         <div class="alert alert-info" role="alert">
           {{ session('message')['message'] }}
+      </div>
+      @endif
+
+
+      @if(session('message1'))
+        <div class="alert alert-danger" role="alert">
+          {{ session('message1')['message1'] }}
       </div>
       @endif
 

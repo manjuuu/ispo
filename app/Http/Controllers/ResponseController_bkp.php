@@ -118,50 +118,19 @@ class ResponseController extends Controller
         $response->form_id = $form_id;
 
         $get_form=DB::table('forms')->where('id',$form_id)->get();
-        foreach ($get_form as $formvalue) {
-            $form_title=$formvalue->title;
+        foreach ($get_form as $value) {
+            $form_title=$value->title;
            
         }
 
-        $data1=$request->q307;
-        $data2=$request->q308;
-        $data3=$request->q309;
-        $data4=$request->q343;
-        $data5=$request->q310;
-        $data6=$request->q311;
-        $data7=$request->q314;
-        $data8=$request->q315;
-        if($form_title == 'Winback Voice File Check')
+        $data1=$request->q7;
+        $data2=$request->q8;
+        if($form_title == 'testing form')
         {
-             if(empty($data1) || empty($data2) || empty($data3) || empty($data4) || empty($data5) || empty($data6) || empty($data7) || empty($data8) ){
-                 return redirect(route('response', ['id' => $form_id]))->with(['message1' => ['time' => 2000, 'type' => 'success', 'message1' =>'Some fileds are not selected,Please select and continue.']]);
-             }
-        }   
-
-
-        $data9=$request->q276;
-        if($form_title == 'VR BAD Level 1')
-        {
-             if(empty($data9)){
+             if(empty($data1) || empty($data2) ){
                  return redirect(route('response', ['id' => $form_id]))->with(['message1' => ['time' => 2000, 'type' => 'success', 'message1' =>'Some fileds are not selected,Please select and continue.']]);
              }
         }
-
-
-        $data10=$request->q290;
-        if($form_title == 'VR BAD Level 2')
-        {
-             if(empty($data10)){
-                 return redirect(route('response', ['id' => $form_id]))->with(['message1' => ['time' => 2000, 'type' => 'success', 'message1' =>'Some fileds are not selected,Please select and continue.']]);
-             }
-        }
-
-
-
-
-
-
-
 
 
         

@@ -1,1 +1,3 @@
-{!! BootForm::text('q'.$question->id, $question->title) !!}
+<div class="form-group">
+  <label for="{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
+ <input class="form-control" id="{{ 'q'.$question->id }}" name="{{ 'q'.$question->id }}" type="text" required=""></div>

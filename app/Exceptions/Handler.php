@@ -45,9 +45,33 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
+        //check if exception is an instance of ModelNotFoundException.
+        if ($e instanceof ModelNotFoundException) {
+            // ajax 404 json feedback
+            if ($request->ajax()) {
+                return response()->json(['error' => 'Not Found'], 404);
+            }
+            // normal 404 view page feedback
+            $errorID = $this->errorCode;
+            return response()->view('errors.missing', [], 404);
+             // return response()->view("errors.400", compact('errorID'), 400);
+        }
+
+            return parent::render($request, $e);
+
+
+
+        /*if ($e instanceof ModelNotFoundException) {
+            $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+        if ($e instanceof NotFoundHttpException) {
+            return response()->view("errors.404", [], 404);
+        }
+        if ($e instanceof ValidationException) {
+            return parent::render($request, $e);
+        }*/
     }
 
     /**

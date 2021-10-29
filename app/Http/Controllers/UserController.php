@@ -60,7 +60,7 @@ class UserController extends Controller
     	$user = new User;
     	$user->username = $request->username;
     	$user->name = $request->name;
-    	$user->admin = 0;
+    	$user->admin = $request->admin;
     	$user->remember_token = Str::random(60);
     	$user->save();
     	$usergroup = new UserGroup;

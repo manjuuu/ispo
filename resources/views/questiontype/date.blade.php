@@ -20,7 +20,7 @@
 
    <label for="{{ 'q'.$question->id }}" class="control-label">{{ $question->title }}</label>
 
-  <input class="form-control"  data-provide="datepicker" name="{{ 'q'.$question->id }}" data-date-format="yyyy-mm-dd" id="from-datepicker" placeholder="Select date" required readonly='true'>
+  <input class="form-control"  data-provide="datepicker" name="{{ 'q'.$question->id }}" data-date-format="yyyy-mm-dd" id="from-datepicker" placeholder="Select date"  required>
 </div>  
 
 </body>

@@ -112,7 +112,13 @@ Route::middleware(['auth', 'tasklock.cancel'])->group(function () {
         //Route::get('/edit_responses/{id}','GroupController@getresponseforedit');
         Route::get('/edit_responses/{id}/{form_id}/{user_id}','GroupController@getresponseforedit');
         Route::post('/updateresponse/{id}','GroupController@updateresponse');
-    });
+
+
+
+
+        Route::get('/users_exception', 'ExceptionController@index')->name('users.index');
+        Route::post('/users/search_exception', 'ExceptionController@search')->name('users.search');
+});
 });
 
 Route::get('login', 'AuthController@index')->name('login');

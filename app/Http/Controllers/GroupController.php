@@ -172,8 +172,7 @@ class GroupController extends Controller
     public function getresponseforedit(Request $request,$id,$form_id,$user_id)
     { 
 
-
-        $qll_questions=DB::table('questions')->get();
+    $qll_questions=DB::table('questions')->get();
         $join_logs=DB::table('responses')->where([
        'responses.id' => $id,
        'responses.form_id' => $form_id,
@@ -191,17 +190,11 @@ class GroupController extends Controller
           $keys = array_keys(json_decode($logg, true));
              /*$just=implode(',', $keys);
              return $str_char = ltrim($just, 'q');*/
-
-
-             foreach($keys as $mykey){
+        foreach($keys as $mykey){
             $str_char = ltrim($mykey, 'q');
-            
-     
-   }
-
-            
-        
     }
+
+}
     $query=DB::table('questions')->where('id',$str_char)->get();
     
     $logs=DB::table('responses')->where([
